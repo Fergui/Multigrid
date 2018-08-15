@@ -1,47 +1,80 @@
 function [u,p] = setup_file(file,perF)
-%[u,p] = setup_file(file,perT)
-%example: [u,p] = setup_file('wrfout',50);
-% Set up u and p for the line search in the case of ideal simulation of
-% WRF-SFIRE
-%input 
+% Call:
+% [u,p] = setup_file(file,perT)
+
+% Example: [u,p] = setup_file('wrfout',50);
+
+% Description:
+% Set up fire arrival time u and matlab struct p for the fire arrival time interpolation method between 
+% the ignition point and a perimeter at frame perF in the case of WRF-SFIRE ideal simulations.
+
+% Inputs: 
 %   file     NetCDF WRF-SFIRE output file
 %   perF     wrfout second perimeter frame
-%output
+% Outputs:
 %   u        level set initialized using an approximation
-%   p        p structure with:
+%   p        Matlab structure with:
 %               perF        wrfout perimeter frame
 %               lastF       wrfout last frame
 %               ignF        wrfout ignition frame
-%               dx, dy      fire mesh spacing
-%               per1_mask   matrix, mask of the first perimeter
-%               per12_mask  matrix, mask of the second perimeter line
-%               per2_mask   matrix, mask of the second perimeter
-%               per1_time   fire arrival time of the first perimeter
-%               per2_time   fire arrival time of the second perimeter
-%               mask        matrix, true where the values of level set function have to change
-%               vmask       matrix, true where the values of level set function can change
+%               dx,dy       Fire mesh spacing
+%               per1_mask   Matrix, mask of the first perimeter
+%               per12_mask  Matrix, mask of the second perimeter line
+%               per2_mask   Matrix, mask of the second perimeter
+%               per1_time   Fire arrival time of the first perimeter
+%               per2_time   Fire arrival time of the second perimeter
+%               mask        Matrix, true where the values of level set function have to change
+%               vmask       Matrix, true where the values of level set function can change
+%               H           Interpolation operator matrix of the ignition point and perimeter at frame perF
+%               g           Right hand side of Hu=g, i.e. fire arrival times at the constraints
 %               bc          boundary conditions = fixed values of the level set function where mask is false
-%               nfuelcat    structure with all the fuel data necessary to
-%                           compute ROS
-%               R           matrix, rate of spread, on same nodes as u
-%               ofunc       matlab function, objective function comparing 
-%                           x=||grad u||^2 and y=R^2 such that xy=1
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to x=||grad u||^2
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to y=R^2
+%               nfuelcat    Structure with all the fuel data necessary to compute ROS
+%               ignS        Matlab structure with:
+%                       timestep        Number of frame at ignition time
+%                       filename        wrfout file name
+%                       fxlong,fxlat    Fire longitude and latitude coordinates
+%                       xlong,xlat      Atmospheric longitude and latitude coordinates
+%                       fire_area       Mask of the fire area at the ignition time
+%                       nfuel_cat       Fuel types all over the domain (13 Rothermel's classification)
+%                       dzdxf,dzdyf     Slope components at ignition time
+%                       uf,vf           Wind components at ignition time
+%                       fmc_g           Fuel moisture content at ignition time
+%                       dx,dy           Resolutions of the atmospheric grid
+%               perS        Matlab structure with:
+%                       timestep        Number of frame at perimeter time = p.perF
+%                       filename        wrfout file name
+%                       fire_area       Mask of the fire area at the perimeter time
+%                       tign_g          Fire arrival time at the perimeter time
+%                       ros             Rate of spread at the perimeter time
+%               dynS        Matlab structure with:
+%                       timestep        =0, because the data is at all the timesteps
+%                       filename        wrfout file name
+%                       uf,vf           Wind components at all the timesteps
+%                       fmc_g           Fuel moisture at all the timesteps
+%                       simt            Seconds from the start of the simulation of all the timesteps
+%               R           Matrix, rate of spread, on same nodes as u
+%               f           
+%               ofunc       Matlab function, objective function comparing x=||grad u||^2 and y=R^2 such that xy=1
+%               dfdG        Matlab function, partial derivative of ofunc to respect to x=||grad u||^2
+%               dfdG        Matlab function, partial derivative of ofunc to respect to y=R^2
 %               q           q norm of the computation of J
-%               h           the stepsize to compute the gradient
-%               stepsize    step size for minimization
-%               numsteps    number of steps to try
-%               max_iter    maximum number of iterations
-%               select      handle to upwinding function
-%               max_step    max size of the steps to search
-%               nmesh       number of mesh points in each search
-%               max_depth   max number of searchs
-%               min_depth   min number of searchs
-%               umax        array, maximal value of u
-%               umin        array, minimal value of u
+%               h           The stepsize to compute the gradient
+%               stepsize    Step size for minimization
+%               numsteps    Number of steps to try
+%               max_iter    Maximum number of iterations
+%               select      Handle to upwinding function
+%               max_step    Max size of the steps to search
+%               nmesh       Number of mesh points in each search
+%               max_depth   Max number of searchs
+%               min_depth   Min number of searchs
+%               umax        Array, maximal value of u
+%               umin        Array, minimal value of u
+%				bi			Indeces to compute the first objective function (coordinate x)
+%				bj			Indeces to compute the first objective function (coordinate y)
+
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Take data from files
 s=nc2struct(file,{'Times','FIRE_AREA'},{});
@@ -63,12 +96,10 @@ for t=1:p.lastF
 end
 ignS=nc2struct(file,{'FXLONG','FXLAT','XLONG','XLAT','FIRE_AREA','NFUEL_CAT','DZDXF','DZDYF','UF','VF','FMC_G'},{'DX','DY'},p.ignF);
 perS=nc2struct(file,{'FIRE_AREA','TIGN_G','ROS'},{},p.perF);
-perlS=nc2struct(file,{'FIRE_AREA','TIGN_G','ROS'},{},p.perF+20);
 dynS=nc2struct(file,{'UF','VF','FMC_G'},{});
 dynS.simt=simt;
 ts=simt(p.ignF);
 te=simt(p.perF);
-tel=simt(p.perF+20);
 %% Number of points and spacing
 [m,n]=size(ignS.fire_area);
 sr_x=round(size(ignS.fxlong,1)/size(ignS.xlong,1),1);
@@ -84,15 +115,12 @@ per1=zeros(m,n);
 per1(xx,yy)=1;
 per12=logical(((perS.fire_area>0).*(perS.fire_area<1)));
 per2=logical(perS.fire_area<1);
-per3=logical(perlS.fire_area<1);
 %% Masks
 p.per1_mask=logical(per1);
 p.per12_mask=per12;
 p.per2_mask=per2;
-p.per3_mask=per3;
 p.per1_time=ts;
 p.per2_time=te;
-p.per3_time=tel;
 p=setup_masks(p);
 %% Shape points
 X=ignS.fxlong;
@@ -102,7 +130,6 @@ yi=yy*p.dy;
 xq=X(per12);
 yq=Y(per12);
 %% Matrix H and vector g
-% Generating from barycenter interpolation
 tic
 Hi=interop_bary(X,Y,xi,yi);
 Hi=representant(Hi);
@@ -122,19 +149,6 @@ Hp(ind,:)=[];
 gp=te*ones(size(Hp,1),1);
 p.H=[Hi;Hp];
 p.g=[gi;gp];
-%{
-% Generating from masks
-jj=find(p.per1_mask);
-iis=(1:length(jj))'; jjs=jj; vvs=ones(size(iis));
-Hi=sparse(iis,jjs,vvs,length(iis),m*n);
-gi=ts*ones(size(Hi,1),1);
-jj=find(p.per12_mask);
-iis=(1:length(jj))'; jjs=jj; vvs=ones(size(iis));
-Hp=sparse(iis,jjs,vvs,length(iis),m*n);
-gp=te*ones(size(Hp,1),1);
-p.H=[Hi;Hp];
-p.g=[gi;gp];
-%}
 %% Array u
 gs=[m,n];
 h=[p.dx,p.dy];
@@ -161,7 +175,7 @@ p.dynS=dynS;
 % from computation using TIGN_G some time later the 2nd perimeter
 %p.R=ros_file(perlS.tign_g,ignS,ignS,p);
 %p.R(~p.vmask)=0;
-% from ROS of the simulation at the 2nd perimeter
+% from ROS of the simulation at the perimeter
 p.R=perS.ros;
 p.R(~p.vmask)=0;
 % from initial approximation and using dynamic variables
@@ -198,7 +212,4 @@ p.umax=ones(m,n)*p.per2_time;
 p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
 p.bj=1:n;
-%tign=perS.tign_g;
-%tign(u<0)=nan; tign(u>p.per2_time+100)=nan;
-%figure, mesh(tign'), view([0 1]);
 end
