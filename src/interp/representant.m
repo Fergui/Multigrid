@@ -1,10 +1,18 @@
 function H = representant(A)
-%H = representant(A)
-% Take one unique non-zero value (representant) for each row of A
-%in 
+% Call:
+% H = representant(A)
+%
+% Description:
+% Take one unique non-zero value (representative) for each row of A
+%
+% Inputs: 
 %   A   Matrix to take the representants for rows
-%out
+% Outputs:
 %   H   Final matrix with 1's in each representant of each row
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 % Computing lenght of non-zero values of each row of A
 l=length(find(A(1,:)));
