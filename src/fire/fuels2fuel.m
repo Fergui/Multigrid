@@ -1,11 +1,18 @@
 function nfuelcat=fuels2fuel(nfuelscat)
+% Call:
 % nfuelcat=fuels2fuel(nfuelscat)
+% Description:
 % From matrix nfuelscat to struct of matrices with fuels type equal in A
-% inputs:
+%
+% Inputs:
 %   nfuelscat      matrix with all the fuel types on it
-% outputs:
+% Outputs:
 %   nfuelcat       structure with a matrix in each fuel variable important
 %                  to compute the ROS
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 run fuels
 [m,n]=size(nfuelscat);
