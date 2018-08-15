@@ -1,15 +1,20 @@
 function H = interop_bary(X,Y,xq,yq)
+% Call:
 % function H = interop_bary(X,Y,xq,yq)
+%
+% Description:
 % Compute the interpolation operator from rectangular grid of 
 % points with coordinates X and Y to points with coordinates xq and yq
 % by the method of barycentric coordinates
 %
-% in:
+% Inputs:
 %      X,Y        matrices of grid cooredinates
 %      xq,yq      coordinates of points to interpolate to
-% out
+% Outputs:
 %      H          Sparse matrix, interpolation operator from values at
 %                 X, Y ordered by columns first
+%
+%-------------------------------------------------------------------------
 
 [m,n]=size(X);  % grid size
 nq=numel(xq);  % number of points to interpolate to
