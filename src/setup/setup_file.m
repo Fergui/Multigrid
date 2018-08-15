@@ -2,7 +2,8 @@ function [u,p] = setup_file(file,perF)
 % Call:
 % [u,p] = setup_file(file,perT)
 %
-% Example: [u,p] = setup_file('wrfout',50);
+% Example: 
+% [u,p] = setup_file('wrfout',50);
 %
 % Description:
 % Set up fire arrival time u and matlab struct p for the fire arrival time interpolation method between 
