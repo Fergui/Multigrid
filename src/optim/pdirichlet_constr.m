@@ -1,10 +1,14 @@
 function u=pdirichlet_constr(n,h,bv,H,g,a,varargin)
+% Call:
 % u=pdirichlet_constr(n,h,bv,H,g,a)
-% solve   (-L)^a * u = 0 on rectangle 
+%
+% Description:
+% Solve   (-L)^a * u = 0 on rectangle 
 %         u          = bv on the boundary, subject to   
 %         H*u        = g
 % where L = d^2/dx^2 + d^2/dy^2 is the Laplace operator
-% in:
+%
+% Inputs:
 %   n   vector size 2, the size of the rectangle in nodes in x and y
 %   h   vector size 2: mesh step
 %   bv   boundary value, scalar
@@ -12,8 +16,10 @@ function u=pdirichlet_constr(n,h,bv,H,g,a,varargin)
 %   g   column, contraint right hand sides 
 %   a   exponent, should be >1 for best results
 %
-% out:
+% Outputs:
 %   u   the solution, matrix size n(1) by n(2)
+%
+%-------------------------------------------------------------------------
 
 if ~isempty(varargin)
     relres=varargin{1};
