@@ -11,7 +11,7 @@ function i=binsearch_leq(s,T)
 % Outputs:
 %   i   minimal such that T <= s(i)
 
-
+%-------------------------------------------------------------------------
 
 % j > min{ i: s(i) >=T} <=> exists i<j : s(i)>=T <=> (j > 1 && s(j-1) >= T)
 % j < min{ i: s(i) >=T} <=> s(j) < T
