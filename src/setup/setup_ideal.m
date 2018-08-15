@@ -1,9 +1,12 @@
 function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
-%[u,p] = setup_ideal(m,n,dx,dy,upwind)
-%examples:
+% Call:
+% [u,p] = setup_ideal(m,n,dx,dy,upwind)
+%
+% Examples:
 %[u,p] = setup_ideal(50,50,1,1,@s_eno,'s');
 %[u,p] = setup_ideal(50,50,1,1,@s_eno,'c');
-%input:
+%
+% Inputs:
 %   m       x dimension
 %   n       y dimension
 %   dx      x resolution
@@ -12,7 +15,7 @@ function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
 %   type    Type of experiment, possible values:
 %         s - Squares experiment.
 %         c - Circles experiment.
-%output:
+% Outputs:
 %   u     level set initialized using an approximation
 %   p        p structure with:
 %               dx, dy      mesh spacing
@@ -46,6 +49,10 @@ function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
 %               min_depth   min number of searchs
 %               umax        array, maximal value of u
 %               umin        array, minimal value of u
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Perimeters
 % Squares
@@ -96,31 +103,9 @@ p=setup_masks(p);
 %% Rate of spread (R)
 % Squares
 if type=='s'
-    % Constant
-    %p.R=ones(m,n);
-    % Random
-    %p.R=5*rand(m,n);
-    % Slope
-    %p.R=ones(m,n);
-    %for i=2:n
-    %    p.R(:,i)=p.R(:,i-1)+2*p.dx;
-    %end
-    % Same mean in both sides
-    %p.R=ones(m,n);
-    %p.R(:,1:5)=1;
-    %p.R(:,5:10)=5;
-    %p.R(:,10:end)=3;
-    % Local
-    %p.R=ones(m,n);
-    %p.R(13:15,13:15)=10;
-    % Jump slope
     p.R=ones(m,n)*5;
     p.R(:,7:12)=7;
     p.R(:,13:15)=10;
-    % Heterogeneous
-    %p.R=ones(m,n);
-    %p.R(30:32,30:32)=10;
-    %p.R(20:22,20:22)=10;
 % Circles
 elseif type=='c'
     p.R=zeros(m,n);
@@ -146,8 +131,6 @@ elseif type=='c'
             end
         end
     end
-    %p.R(35:38,35:38)=100;
-    %p.R(15:18,15:18)=100;
     %% Creating shape
     [xq1,yq1]=circle_points(x0,y0,d1,100);
     [xq2,yq2]=circle_points(x0,y0,d2,200);
@@ -165,25 +148,7 @@ elseif type=='c'
     g=[b1;b2];
     p.g=g(rows);
 end
-%% Array u
-% First initialization of u
-%u=ones(m,n);
-% A better one
-%for i=1:m
-%    for j=1:n
-%        u(i,j)=(1/2-i/m)^2+(1/2-j/n)^2;
-%    end
-%end
-%u(p.per1_mask)=p.per1_time;
-%u(p.per2_mask)=p.per2_time;
-% Final initialization using distance
-%u=initial_approx(p);
-% Initialization using Neumann boundary conditions
-%gs=[m,n];
-%h=[dx,dy];
-%a=1.4;
-%u=pneumann_constr(gs,h,p.H,p.g,a);
-% Initialization using Dirichlet boundary conditions
+%% Initialization of u using Dirichlet boundary conditions
 uu=unique(p.g);
 gs=[m,n];
 h=[p.dx,p.dy];
@@ -198,9 +163,6 @@ toc
 p.bc=u;
 %% Type of objective function and derivatives
 syms x y
-%e=1e-5;
-%f=1/(x+e)-y/(1+y*e);
-%f=1/x-y;
 f=1-x*y;
 p.f=f;
 p.ofunc=matlabFunction(f,'Vars',[x y]);
