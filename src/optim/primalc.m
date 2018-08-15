@@ -1,13 +1,14 @@
 function [u] = primalc(S,Sinv,H,Z,f,g,varargin)
+% Call:
 % u=primalc(S,Sinv,H,Z,f,g)
 %
+% Description:
 % Solve saddle point problem
-%
 %   S*u + H'*lambda = f
 %   H*u             = g
-% 
 % with possibly singular symmetric S 
-% in: 
+%
+% Inputs: 
 %   Sinv    function handle, u=Sinv(r) is a solution of S*u=r if one exists
 %   H       constraint matrix
 %   Z       columns generate nullspace of S
@@ -15,8 +16,10 @@ function [u] = primalc(S,Sinv,H,Z,f,g,varargin)
 %   g       column vector size number of constraints
 %   relres  max relative residual
 %   maxit   max iterations
-% out:
+% Outputs:
 %   u       the solution
+%
+%-------------------------------------------------------------------------
 
 if ~isempty(varargin)
     relres=varargin{1};
