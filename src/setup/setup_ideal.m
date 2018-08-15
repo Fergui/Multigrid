@@ -49,6 +49,8 @@ function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
 %               min_depth   min number of searchs
 %               umax        array, maximal value of u
 %               umin        array, minimal value of u
+%				bi			indeces to compute the first objective function (coordinate x)
+%				bj			indeces to compute the first objective function (coordinate y)
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
