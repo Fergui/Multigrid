@@ -1,10 +1,17 @@
 function ii=binsearch_bounds(s,smin,smax)
+% Call:
 % ii=binsearch_bounds(s,smin,smax)
-% in:
+
+% Description:
+% Search the array of all indices such that smin <= s(i) <= smax
+
+% Inputs:
 %   s           array sorted in increasing order
 %   smin,smax   bounds to select values of xs
-% out:
+% Outputs:
 %   ii          array of all indices such that smin <= s(i) <= smax
+
+%-------------------------------------------------------------------------
 
 imin=binsearch_leq(s,smin);
 if isempty(imin),
