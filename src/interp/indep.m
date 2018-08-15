@@ -1,12 +1,18 @@
 function ix=indep(A,tol)
+% Call:
 % ix=indep(A)
 % ix=indep(A,tol)
-% select linearly independent columns in matrix
-% in
+%
+% Description:
+% Select linearly independent columns in matrix
+%
+% Inputs:
 %   A matrix
 %   t tolerance to identify nonzeros, default eps*max(size(A))
-% out
+% Outputs:
 %   ix indices of a maximal set of linearly independent columns
+%
+%-------------------------------------------------------------------------
 
 if ~exist('tol','var')
     tol=max(size(A))*eps;
