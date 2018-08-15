@@ -1,11 +1,20 @@
 function time=str2times(stri,strf)
-%time=str2time(stri,strf)
+% Call:
+% time=str2time(stri,strf)
+
+% Description:
 % Compute the time in seconds from stri date to strf date
-%in
+
+% Inputs:
 %   stri    initial char string with YYYY-MM-DD_hh:mm:ss format
 %   strf    final char string with YYYY-MM-DD_hh:mm:ss format
-%out
+
+% Outputs:
 %   time    difference of seconds between dates
+
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 stri=char(stri);
 strf=char(strf);
