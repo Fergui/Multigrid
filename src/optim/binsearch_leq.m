@@ -1,16 +1,16 @@
 function i=binsearch_leq(s,T)
 % Call:
 % i=binsearch_leq(s,T)
-
+%
 % Description:
 % Return smallest i such that T <= s(i)
-
+%
 % Inputs:
 %   s   array sorted nondecreasing
 %   T   target value
 % Outputs:
 %   i   minimal such that T <= s(i)
-
+%
 %-------------------------------------------------------------------------
 
 % j > min{ i: s(i) >=T} <=> exists i<j : s(i)>=T <=> (j > 1 && s(j-1) >= T)
