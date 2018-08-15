@@ -10,7 +10,7 @@ function [H,rows] = condense(A)
 %% Mean of the rows in the same triangle
 % Dimensions of the problem
 l=length(find(A(1,:)));
-[nns,mm]=size(A);
+[~,mm]=size(A);
 [ii,jj,vv]=find(A);
 [~,rows]=sort(ii);
 jjs=jj(rows);
@@ -21,6 +21,7 @@ J=(reshape(jjs,l,length(jjs)/l))';
 V=(reshape(vvs,l,length(vvs)/l))';
 % Sorting the rows depending on the j indexes different than 0 in A.
 [JS,index]=sortrows(J);
+[nns,~]=size(JS);
 % Sorting the values.
 VS=V(index,:);
 % Computing the distance between the consecutive rows of JS.

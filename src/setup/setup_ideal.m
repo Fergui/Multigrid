@@ -144,7 +144,7 @@ elseif type=='c'
     H1=interop_bary(X,Y,xq1n,yq1n);
     H2=interop_bary(X,Y,xq2n,yq2n);
     H=[H1;H2];
-    [p.H,rows]=condence(H);
+    [p.H,rows]=condense(H);
     b1=p.per1_time*ones(size(H1,1),1);
     b2=p.per2_time*ones(size(H2,1),1);
     g=[b1;b2];
@@ -154,7 +154,7 @@ end
 uu=unique(p.g);
 gs=[m,n];
 h=[p.dx,p.dy];
-a=1.4;
+a=1;
 bv=uu(end)*2;
 relres=1e-11;
 maxit=1000;
