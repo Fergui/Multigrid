@@ -1,10 +1,10 @@
 function p=setup_masks(p)
 % Call:
 % p=setup_masks(p)
-
+%
 % Description:
 % Set up the masks mask and vmask in the structure p
-
+%
 % Inputs:
 %   p    structure with:
 %           per1_mask   matrix, mask of the first perimeter
@@ -13,7 +13,7 @@ function p=setup_masks(p)
 %   p    structure with:
 %           mask        matrix, true where the values of level set function have to change
 %           vmask       matrix, true where the values of level set function can change
-
+%
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
