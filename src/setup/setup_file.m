@@ -167,7 +167,6 @@ p.nfuelcat=fuels2fuel(ignS.nfuel_cat);
 %% Structures for computing ROS
 p.ignS=ignS;
 p.perS=perS;
-p.perlS=perlS;
 p.dynS=dynS;
 %% Rate of spread
 % from initial approximation
