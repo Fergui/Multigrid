@@ -1,13 +1,13 @@
 function [u,p] = setup_file(file,perF)
 % Call:
 % [u,p] = setup_file(file,perT)
-
+%
 % Example: [u,p] = setup_file('wrfout',50);
-
+%
 % Description:
 % Set up fire arrival time u and matlab struct p for the fire arrival time interpolation method between 
 % the ignition point and a perimeter at frame perF in the case of WRF-SFIRE ideal simulations.
-
+%
 % Inputs: 
 %   file     NetCDF WRF-SFIRE output file
 %   perF     wrfout second perimeter frame
@@ -71,7 +71,7 @@ function [u,p] = setup_file(file,perF)
 %               umin        Array, minimal value of u
 %				bi			Indeces to compute the first objective function (coordinate x)
 %				bj			Indeces to compute the first objective function (coordinate y)
-
+%
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
