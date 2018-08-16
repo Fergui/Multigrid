@@ -1,13 +1,22 @@
 function plot_constr2(X,Y,H,g)
-%plot_constr2(X,Y,H,g)
+% Call:
+% plot_constr2(X,Y,H,g)
+%
+% Description:
 % 2D plot of linear constraints 
-%in 
+%
+% Inputs: 
 %   X       matrix of X coordinates (longitude), or number of points in X direction
 %   Y       matrix of Y coordinates (latitude), or number of points in Y direction
 %   H       matrix of linear constraints
 %   g       right hand side of the contraints
-%out
+% Outputs:
 %   A 2D plot of the linear constraints
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+% Modification from plot_constr.m by Jan Mandel
+%-------------------------------------------------------------------------
 
 uu=unique(g);
 [nx,ny]=size(X);
