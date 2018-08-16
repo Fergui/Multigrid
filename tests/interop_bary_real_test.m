@@ -3,8 +3,8 @@
 % Taking the shape file
 s=kml2struct('data/doc.kml');
 
-% Using grid from wrfout
-m=2580;n=2580;
+% Defining the lon-lat grid
+m=500;n=500;
 ulon=-106.0347;ulat=36.1729;llon=-106.7677;llat=35.5790;
 
 % Defining important data computing H
