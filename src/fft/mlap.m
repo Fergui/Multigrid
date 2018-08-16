@@ -1,6 +1,7 @@
 function y=mlap(x,h)
 % evaluate y=-x_11 - x_22 on rectangular uniform grid
 % it is assumed that boundary values of x are zero
+% Jan Mandel
 [m0,n0]=size(x);
 xx=zeros(m0+2,n0+2);
 xx(2:m0+1,2:n0+1)=x;
