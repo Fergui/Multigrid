@@ -19,6 +19,7 @@ function [u] = primalc(S,Sinv,H,Z,f,g,varargin)
 % Outputs:
 %   u       the solution
 %
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 if ~isempty(varargin)
