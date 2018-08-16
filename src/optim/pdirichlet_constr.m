@@ -19,6 +19,7 @@ function u=pdirichlet_constr(n,h,bv,H,g,a,varargin)
 % Outputs:
 %   u   the solution, matrix size n(1) by n(2)
 %
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 if ~isempty(varargin)
