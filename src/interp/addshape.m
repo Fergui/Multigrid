@@ -1,10 +1,14 @@
 function [xqn,yqn] = addshape(X,Y,xq,yq)
-%[xqn,yqn] = untitled(X,Y,xq,yq)
+% Call:
+% [xqn,yqn] = untitled(X,Y,xq,yq)
+%
+% Description:
 % Add shape points if it is necessary depending on the mesh
-% in
+%
+% Inputs:
 %      X,Y        matrices of grid cooredinates
 %      xq,yq      coordinates of points in the shape
-% out
+% Outputs:
 %      xqn,yqn    coordinates of new points in the shape
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
