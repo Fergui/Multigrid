@@ -1,11 +1,19 @@
 function [H,rows] = condense(A)
-%[H,rows] = condense(A)
+% Call:
+% [H,rows] = condense(A)
+%
+% Description:
 % Condense the rows of A to be one constraint for triangle and all linearly independent
-% in
+%
+% Inputs:
 %   A     sparse matrix to condence
-% out
+% Outputs:
 %   H     sparse matrix condenced
 %   rows  A indexes of final rows of H condenced
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Mean of the rows in the same triangle
 % Dimensions of the problem
