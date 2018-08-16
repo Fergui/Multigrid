@@ -3,9 +3,10 @@ function v=ncvarinfo(ncid,varid)
 % get info on variable number varid in file f
 % returns a structure with fields containing the 
 % variable propertices and attributes
-
+%
 % Jan Mandel, September 2008
-% developed from an earlier code by Jon Beezley
+% Developed from an earlier code by Jon Beezley
+%-------------------------------------------------------------------------
 
 
 [v.varname,v.vartype,v.dimids,v.natts]=netcdf.inqVar(ncid,varid);
