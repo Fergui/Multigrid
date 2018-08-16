@@ -6,6 +6,10 @@ function [xqn,yqn] = addshape(X,Y,xq,yq)
 %      xq,yq      coordinates of points in the shape
 % out
 %      xqn,yqn    coordinates of new points in the shape
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 % Some necessary precomputations 
 ns=length(xq);
@@ -15,7 +19,6 @@ dy=Y(1,2)-Y(1,1);
 % Adding points to the shapefile
 d=sqrt(([xq(2:end);xq(1)]-xq).^2+([yq(2:end);yq(1)]-yq).^2);
 cond=floor(d./sqrt(dx^2+dy^2));
-%cond=floor((2*d)./sqrt(dx^2+dy^2));
 nc=sum(cond);
 xqn=zeros(ns+nc,1); yqn=zeros(ns+nc,1); 
 in=0;
@@ -36,8 +39,6 @@ for i = 1:ns
     end
 end
 fprintf('The number of points added are %d\n',nc);
-%figure, mesh(X,Y,zeros(size(X))), view(2), hold on, plot(xqn,yqn,'+'), hold on, plot(xq,yq,'x'), drawnow
-
 
 end
 
