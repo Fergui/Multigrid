@@ -12,6 +12,7 @@ function U = fdirichlet_fft2(r,h,f)
 % Outputs:
 %   u = f(-d^2/dx^2 - d^2/dy^2)*r
 %
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 % with [N1,N2]=size(r) on the square [0 (N1+1)*h(1)] times [0 (N2+1)*h(2)]
