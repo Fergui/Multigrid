@@ -12,6 +12,7 @@ function ix=indep(A,tol)
 % Outputs:
 %   ix indices of a maximal set of linearly independent columns
 %
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 if ~exist('tol','var')
