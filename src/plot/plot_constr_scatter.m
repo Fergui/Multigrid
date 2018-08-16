@@ -1,13 +1,22 @@
 function plot_constr_scatter(X,Y,H,g)
-%plot_constr(X,Y,H,g)
+% Call:
+% plot_constr(X,Y,H,g)
+%
+% Description:
 % 3D plot of linear constraints
-%in 
+%
+% Inputs: 
 %   X       matrix of X coordinates (longitude), or number of points in X direction
 %   Y       matrix of Y coordinates (latitude), or number of points in Y direction
 %   H       matrix of linear constraints
 %   g       right hand side of the contraints
-%out
+% Outputs:
 %   A 3D plot of the linear constraints
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+% Modified from plot_constr.m by Jan Mandel
+%-------------------------------------------------------------------------
 
 uu=unique(g);
 [nx,ny]=size(X);
@@ -25,5 +34,4 @@ c=ones(length(zz),3);
 for k=1:length(uu)
     c(zz==uu(k),:)=repmat(col(k,:),length(find(zz==uu(k))),1);
 end
-%zz=uu(end)+(uu(end)*1./(1.+zz/uu(end))); % for having the smallest the highest
 scatter3(xx,yy,zz,5,c,'*');
