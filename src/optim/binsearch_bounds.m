@@ -11,7 +11,7 @@ function ii=binsearch_bounds(s,smin,smax)
 % Outputs:
 %   ii          array of all indices such that smin <= s(i) <= smax
 %
-% Jan Mandel
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 imin=binsearch_leq(s,smin);
