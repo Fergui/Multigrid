@@ -1,10 +1,18 @@
 function i=binsearch(s,T)
-% return smallest i such that s(i)=T
-% in
+% Call:
+% i=binsearch(s,T)
+%
+% Description:
+% Return smallest i such that s(i)=T
+%
+% Inputs:
 %   s   array sorted nondecreasing
 %   T   target value
-% out
+% Outputs:
 %   i   smallest index i such that s(i)=T
+%
+% Jan Mandel, 2018
+%-------------------------------------------------------------------------
 
 l = 1;
 u = length(s)
