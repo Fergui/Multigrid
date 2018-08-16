@@ -1,15 +1,22 @@
 function plot_constr(X,Y,H,g,m,bounds)
-%plot_constr(X,Y,H,g,m,bounds)
+% Call:
+% plot_constr(X,Y,H,g,m,bounds)
+%
+% Description:
 % 3D plot of linear constraints
-%in 
+%
+% Inputs: 
 %   X       matrix of X coordinates (longitude), or number of points in X direction
 %   Y       matrix of Y coordinates (latitude), or number of points in Y direction
 %   H       matrix of linear constraints
 %   g       right hand side of the contraints
 %   m       type of plot (example: 'r.' for red dots)
 %   bounds  bound where plotting the data
-%out
+% Outputs:
 %   A 3D plot of the linear constraints
+%
+% Jan Mandel, 2018
+%-------------------------------------------------------------------------
 
 [nx,ny]=size(X);
 if nx==1,
