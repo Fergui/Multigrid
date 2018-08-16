@@ -3,8 +3,9 @@ function [nc,m]=ncdatatype(d)
 % d = vartype or datatype from netcdf
 % nc = 'TEXT' or 'DOUBLE' to create read statements 
 % m =  guess of what the type actually is in matlab 
-
+%
 % Jan Mandel, September 2008
+%-------------------------------------------------------------------------
 
 %types_nc={'', '', 'TEXT', 'DOUBLE','DOUBLE','DOUBLE','DOUBLE'};  %  ??? 
 types_nc={'', '', 'text', 'short','int','float','double'};  %  ??? 
