@@ -1,14 +1,21 @@
 function kmlStruct = kml2struct(kmlFile)
+% Call:
 % kmlStruct = kml2struct(kmlFile)
 %
-% Import a .kml file as a vector array of shapefile structs, with Geometry, Name,
-% Description, Lon, Lat, and BoundaryBox fields.  Structs may contain a mix
-% of points, lines, and polygons.
+% Description:
+% Import a .kml file as a vector array of shapefile structs, with Geometry, Name, Description, Lon, Lat, and BoundaryBox fields.  
+% Structs may contain a mix of points, lines, and polygons.
+% .kml files with folder structure will not be presented as such, but will appear as a single vector array of structs.
 %
-% .kml files with folder structure will not be presented as such, but will
-% appear as a single vector array of structs.
+% Inputs:
+%       kmlFile    kml file
+% Outputs:
+%       kmlStruct  Structure with all the information inside the kml
 %
-% 
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+% Modified from above
+%-------------------------------------------------------------------------
 
 %Downloaded from https://www.mathworks.com/matlabcentral/fileexchange/35642-kml2struct
 %October 13, 2016
