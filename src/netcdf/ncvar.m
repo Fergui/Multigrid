@@ -7,6 +7,10 @@ function v=ncvar(filename,varname,start,count)
 %      start,count not present: read all  variable data 
 %                 empty: do not read variable data 
 %                 given: read in each dimension from start (begins at 0) count entries
+%
+% Jan Mandel
+%-------------------------------------------------------------------------
+
 
 read_value=1;
 if exist('start','var')
