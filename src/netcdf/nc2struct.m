@@ -18,6 +18,9 @@ function [p,dims]=nc2struct(filename,varnames,gattnames,timestep,p)
 %   p=nc2struct('wrfinput_d01',{'U','V'},{'DX','DY'})
 % will read variables U,V into p.u, p.v and global attributes DX DY into
 % p.dx p.dy, respectively
+%
+% Jan Mandel
+%-------------------------------------------------------------------------
 
 if ~exist('timestep','var'),
     timestep=0;
