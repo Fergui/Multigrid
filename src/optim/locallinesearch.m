@@ -1,11 +1,15 @@
 function [un,Jop]=locallinesearch(u,node,phi,Jop,p)
+% Call:
 % um=locallinesearch(node,phi,p)
+%
+% Description:
 % Computes the exact line search in the patch 
 %     j+s
 %i-s       i+s
 %     j-s
 % using a tend base function for the direction
-%in
+%
+% Inputs:
 %   u      fire arrival time
 %   node   array containing
 %       i    x node index of the center of the patch
@@ -14,9 +18,13 @@ function [un,Jop]=locallinesearch(u,node,phi,Jop,p)
 %   phi    coarse base function
 %   Jop    array of objective function values
 %   p      structure
-%out
+% Outputs:
 %   un     final result of a local linesearch
 %   Jop    adding the new objective function value
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 [m,n]=size(u);
 i=node(1);

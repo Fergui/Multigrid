@@ -1,15 +1,22 @@
 function ros=fire_ros(fuel,speed,tanphi,fuelmc_g)
+% Call:
 % ros=fire_ros(fuel,speed,tanphi,fuelmc_g)
-% in
+%
+% Description:
+% Compute the Rate of Spread of the fire from the dynamic matrices
+%
+% Inputs:
 %       fuel    fuel description structure with matrices inside
 %       speed   matrix, wind speed
 %       tanphi  matrix, slope
 %       fmc_g   optional, matrix, overrides fuelmc_g from the fuel description
-% out
+% Outputs:
 %       ros     matrix, rate of spread
-%       r_0     matrix, rate of spread without wind neither slope
-%       phiw    matrix, wind factor
-%       phis    matrix, slope factor
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+% Vectorised version from Jan Mandel
+%-------------------------------------------------------------------------
 
 
 % given fuel params

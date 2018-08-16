@@ -1,9 +1,14 @@
 function ros=ros_file(u,ign,per,p)
-%ros=ros_file(u,ign,per,p)
+% Call:
+% ros=ros_file(u,ign,per,p)
+%
+% Example: 
+% ros=ros_file(u,ign,per,p)
+%
+% Description:
 % Computes rate of spread from WRF-SFIRE output file in structures
-%example: 
-%   ros=ros_file(u,ign,per,p)
-%inputs:
+%
+% Inputs:
 %   u      Fire arrival time
 %   ign    Structure from the ignition time, with:
 %               dzdxf   x component of the slope
@@ -15,8 +20,12 @@ function ros=ros_file(u,ign,per,p)
 %   p      Static structure, with:
 %               dx, dy       fire mesh spacing
 %               nfuelcat     matrix of vegetation types 
-%output:
+% Outputs:
 %   ros    Rate of spread computed from WRF-SFIRE output file
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Take input data in s structure
 dx=p.dx;

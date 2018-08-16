@@ -1,7 +1,11 @@
 function um=multigrid(u,p)
+% Call:
 % um=multigrid(u,p)
+%
+% Description:
 % Computes a linesearch technique using multigrid approach
-%in
+%
+% Inputs:
 %   u    Initial approximation
 %   p    Matlab structure containing:
 %               R           matrix, rate of spread, on same nodes as u
@@ -22,8 +26,14 @@ function um=multigrid(u,p)
 %               lm          number of coarse mesh step cycles
 %               seq         array, sequence of coarse mesh steps
 %               multigrid   array, number of cycles in each mesh step size
-%out
+%               ros         boolean variable to know if compute or not a dynamic ROS
+%               rec         boolean variable to know if record the optimization
+% Outputs:
 %   um   Final solution of the multigrid method
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 % Initialization of the multigrid linesearch with strategy vector
 [m,n]=size(u);
@@ -32,12 +42,10 @@ seq=lm:-1:0;
 um=u;
 Jop=[];
 Jglobal=[];
-%[r,~]=cJ(um,p.R,p);
 r=gJ(um,p);
 Jop=[Jop;r];
 Jglobal=[Jglobal;r];
 % General cycle of multigrid method
-%p.mcycle=size(p.uf,3);
 for cycle=1:p.mcycle
     % Each cycle will have all the spacings
     for l=1:lm+1
@@ -58,7 +66,6 @@ for cycle=1:p.mcycle
         else
             mesh(phi), tit=title(['Bilinear coarse grid function at mesh step ',num2str(s)]);  set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
         end
-        %text(0,0,'(b)','FontSize',14,'HorizontalAlignment','center')
         drawnow
         % Generating the possible range nodes (i,j) where we could apply the direction phy
         if isfield(p,'mask')
@@ -88,23 +95,19 @@ for cycle=1:p.mcycle
                     end
                 end
             end
-            %um=project(um,p.H,p.g);
-            %[r,~]=cJ(um,p.R,p);
             r=gJ(um,p);
             Jglobal=[Jglobal;r];
             % Plotting results of each spacing
             subplot(2,2,3)
             plot(0:size(Jglobal,1)-1,Jglobal(1:end),'.-'), tit=title('Objective function after each multigrid iteration'); set(tit,'FontSize',18,'FontWeight','Bold'), axi1=xlabel('Multigrid iteration'); set(axi1,'FontSize',20,'FontWeight','Bold'), axi2=zlabel('Fire arrival time'); set(axi2,'FontSize',20,'FontWeight','Bold'), axi3=ylabel('Objective function value'); set(axi3,'FontSize',20,'FontWeight','Bold')
-            %text(0,0,'(c)','FontSize',14,'HorizontalAlignment','center')
             subplot(2,2,4)
-            %plot_sol(um,p.H,p.g), title(['u: cycle=',num2str(cycle),'/',num2str(p.mcycle),' - coarse mesh step=',num2str(s),' - cycle in mesh step=',num2str(cs),'/',num2str(ms),' J=',num2str(Jop(end))]),zlabel('Fire arrival time');
             ur=um;
             ur(~p.vmask)=nan;
             mesh(ur'), view([0 1]), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
-            %text(0,0,'(d)','FontSize',14,'HorizontalAlignment','center')
-            %plot_sol2(ur,p.H,p.g), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
             drawnow
-            %record(p.fig,2);
+            if p.rec
+                record(p.fig,2);
+            end
             % Updating ROS dynamically
             if p.ros
                 p.ds=dyninterp(um,p);

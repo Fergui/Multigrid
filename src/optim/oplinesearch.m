@@ -1,6 +1,11 @@
 function [Jmin,smin,um,Jlow] = oplinesearch(u,f,R,dir,p)
-% [Jmin,umin,um,step_opt,Jlow] = oplinesearch(u,f,dir,p,step)
-%inputs:
+% Call:
+% [Jmin,smin,um,Jlow] = oplinesearch(u,f,dir,p)
+%
+% Description:
+% Exact line search in the specify direction
+%
+% Inputs:
 %   u        starting array
 %   f        function to make the line search
 %   dir      direction to search
@@ -12,11 +17,16 @@ function [Jmin,smin,um,Jlow] = oplinesearch(u,f,R,dir,p)
 %      umax        array, maximal value of u
 %      H           matrix, interpolation operator in the patch
 %      g           array, right side vector of constraints Hu=g
-%outputs:
+% Outputs:
 %   Jmin        minim value of J in the patch
 %   smin        step where J is minimum in the patch
 %   um          new array doing descent gradient methot from u
 %   Jlow        value of J in the patch before line search
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+% Modify from another version by Jan Mandel
+%-------------------------------------------------------------------------
 
 [m,n]=size(u);
 step_low=0;
@@ -32,9 +42,6 @@ for d=1:p.max_depth
     for i=2:p.nmesh+2
         % new u
         v=u+steps(i)*dir;
-        %err
-        %v=min(v,p.umax(1));
-        %v=max(v,p.umin(1));
         % difference on f
         [fv,~]=f(v,R,p);
         % penalty term
@@ -90,14 +97,6 @@ end
 [~,ndx]=min(Jdiffs);
 Jmin=Jmins(ndx);
 smin=smins(ndx);
-%um=u+smin*(dir-u);
 um=u+smin*dir;
-%um=min(um,p.umax(1));
-%um=max(um,p.umin(1));
-%{
-function err
-    fprintf('oplinesearch: constraint relative error %d, scal %d\n',norm(H*v(:)-g)/norm(g),norm(g));
-end
-%}
 end
 

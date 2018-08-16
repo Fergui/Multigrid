@@ -1,7 +1,11 @@
 function ds=dyninterp(u,p)
-% Temporal interpolation of the wind fields and the fuel moisture
+% Call:
 % ds=dyninterp(u,p)
-%in
+%
+% Description:
+% Temporal interpolation of the wind fields and the fuel moisture
+%
+% Inputs:
 %   u   fire arrival time
 %   p   structure with:
 %      vmask    matrix, true where the values of level set function can change
@@ -9,10 +13,14 @@ function ds=dyninterp(u,p)
 %           simt     array of simulation times in seconds
 %           uf, vf   (x,y,t): wind components of the simulation
 %           fmc_g    (x,y,t): fuel moisture of the simulation
-%out
+% Outputs:
 %   ds  dynam struct to compute the rate of spread, contains:
 %       uf, vf   (x,y,t): wind coordinates interpolated
 %       fmc_g    (x,y,t): fuel moisture interpolated
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 tt=p.dynS.simt;
 [m,n]=size(u);
