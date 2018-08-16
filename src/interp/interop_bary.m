@@ -14,6 +14,7 @@ function H = interop_bary(X,Y,xq,yq)
 %      H          Sparse matrix, interpolation operator from values at
 %                 X, Y ordered by columns first
 %
+% Jan Mandel, 2018
 %-------------------------------------------------------------------------
 
 [m,n]=size(X);  % grid size
