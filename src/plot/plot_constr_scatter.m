@@ -25,5 +25,5 @@ c=ones(length(zz),3);
 for k=1:length(uu)
     c(zz==uu(k),:)=repmat(col(k,:),length(find(zz==uu(k))),1);
 end
-zz=uu(end)+(uu(end)*1./(1.+zz/uu(end))); % for having the smallest the highest
+%zz=uu(end)+(uu(end)*1./(1.+zz/uu(end))); % for having the smallest the highest
 scatter3(xx,yy,zz,5,c,'*');

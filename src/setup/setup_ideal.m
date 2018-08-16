@@ -154,8 +154,8 @@ end
 uu=unique(p.g);
 gs=[m,n];
 h=[p.dx,p.dy];
-a=1;
-bv=uu(end)*2;
+a=1.4;
+bv=uu(end);
 relres=1e-11;
 maxit=1000;
 tic
