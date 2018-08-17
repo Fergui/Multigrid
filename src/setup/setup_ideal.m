@@ -28,15 +28,13 @@ function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
 %               vmask       matrix, true where the values of level set function can change
 %               bc          boundary conditions = fixed values of the level set function where mask is false
 %               R           matrix, rate of spread, on same nodes as u
-%               H           sparse matrix, interpolation operator for all
-%                           the perimeters as a constraints
+%               H           sparse matrix, interpolation operator for all the perimeters as a constraints
 %               g           vector, right side of the constraints (Hu=g)
-%               ofunc       matlab function, objective function comparing 
-%                           x=||grad u||^2 and y=R^2 such that xy=1
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to x=||grad u||^2
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to y=R^2
+%               bc          boundary conditions for each case = fixed values of the level set function where mask is false
+%               f           string with the objective function formula
+%               ofunc       matlab function, objective function comparing x=||grad u||^2 and y=R^2 such that xy=1
+%               dfdG        matlab function, partial derivative of ofunc to respect to x=||grad u||^2
+%               dfdG        matlab function, partial derivative of ofunc to respect to y=R^2
 %               q           q norm of the computation of J
 %               h           the stepsize to compute the gradient
 %               stepsize    step size for minimization
@@ -49,8 +47,9 @@ function [u,p] = setup_ideal(m,n,dx,dy,upwind,type)
 %               min_depth   min number of searchs
 %               umax        array, maximal value of u
 %               umin        array, minimal value of u
-%				bi			indeces to compute the first objective function (coordinate x)
-%				bj			indeces to compute the first objective function (coordinate y)
+%               bi			indeces to compute the first objective function (coordinate x)
+%               bj			indeces to compute the first objective function (coordinate y)
+%               exp         experiment type, string 'ideal'
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
