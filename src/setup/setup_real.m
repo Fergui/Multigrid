@@ -1,10 +1,14 @@
 function [u,s,p] = setup_real(matfile)
-%[u,p,s] = setup_real(matfile)
-%example: [u,p,s] = setup_real('in/lasconchas.mat');
-%input 
+% Call:
+% [u,p,s] = setup_real(matfile)
+%
+% Example: 
+% [u,p,s] = setup_real('in/lasconchas.mat');
+%
+% Inputs: 
 %   matfile   Matlab file with an structure p on it containing all the 
 %             necessary information from wrfout and kml 
-%output
+% Outputs:
 %   u        struct of level sets initialized using an approximation for
 %            each perimeters case
 %   s        structure with:
@@ -50,13 +54,19 @@ function [u,s,p] = setup_real(matfile)
 %                           the simulation in the perimeter times
 %               perlS       structure with all the important variables from
 %                           the simulation a posteriori of the perimeter times
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Take data from files
 load(matfile);
+
 fprintf('Computing necessary mesh variables...\n');
 %% Fire mesh refinement
 sr_x=round(size(p.ignS.fxlong,1)/size(p.ignS.xlong,1),1);
 sr_y=round(size(p.ignS.fxlat,1)/size(p.ignS.xlat,1),1);
+
 %% Number of points, spacing and mesh
 [m,n]=size(p.ignS.fxlat);
 X=p.ignS.fxlong;
@@ -66,6 +76,7 @@ s.dy=p.ignS.dy/sr_y;
 np=length(p.perS);
 minp=500; % Minim of points in the perimeters
 times=[p.tig,p.ptimes(1:np)];
+
 %% Defining the shape points
 xq=cell(np+1,1);
 yq=cell(np+1,1);
@@ -88,11 +99,9 @@ for k=1:np
         end
     end
 end
-%figure, plot_per(xq,yq)
+
 fprintf('Computing interpolation operator H and right side g of Hu=g...\n');
 %% Interpolate operator H and g such that Hu=g
-%xqn=cell2mat(xq);
-%yqn=cell2mat(yq);
 H=cell(np+1,1);
 g=cell(np+1,1);
 for k=1:np+1
@@ -107,6 +116,7 @@ for k=1:np+1
 end
 s.H=H;
 s.g=g;
+
 fprintf('Computing approximation of the fire arrival time...\n');
 %% Masks
 M=cell(np,1);
@@ -123,6 +133,7 @@ for k=1:np
     toc
 end
 s.M=M;
+
 %% Structure of arrays u
 u=cell(np,1);
 for k=1:np
@@ -143,11 +154,13 @@ for k=1:np
     u{k}=pdirichlet_constr(gs,h,bv,Hc,gc,a,relres,maxit);
     toc
 end
+
 fprintf('Computing fuel variables...\n'); 
 %% Fuel type
 tic
 s.nfuelcat=fuels2fuel(p.ignS.nfuel_cat);
 toc
+
 fprintf('Computing ROS...\n'); 
 %% Rate of spread
 % from fire arrival time initial approximation
@@ -176,6 +189,7 @@ for k=1:np
    R{k}=p.perS(k).ros; 
 end
 s.R=R;
+
 fprintf('Defining final variables...\n');
 %% Boundary conditions
 s.bc=u;
