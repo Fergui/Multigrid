@@ -71,7 +71,7 @@ d=projectdir(dir,H);
 for sig=-1:2:1
     dir=sig*max(0,d);
     % Line search in the patch
-    [Jmin,~,um,~]=oplinesearch(um,@cJ,R,dir,p);
+    [Jmin,~,um,~]=linesearch(um,@cJ,R,dir,p);
     % Saving the results of the line search
     if Jmin<Jop(end)
         Jop=[Jop;Jmin];
