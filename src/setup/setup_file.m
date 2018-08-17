@@ -202,5 +202,5 @@ p.umax=ones(m,n)*p.per2_time;
 p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
 p.bj=1:n;
-p.exp='ideal';
+p.exp='file';
 end
