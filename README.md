@@ -4,6 +4,11 @@ Matlab framework to compute projected descent multigrid method. Experiments opti
 
 # Tests
 
-To test the functions, one can start Matlab and run:
->> startup
-and then, any of the tests in the tests folder.
+To test the functions:
+1) Start Matlab inside Multigrid folder, so inside Multigrid folder type
+matlab -nodesktop -nodisplay
+2) If you started Matlab in another folder, run inside Matlab
+\>\> startup
+3) Run any of the tests in the tests folder. For example:
+cd tests
+pdirichlet_constr_test
