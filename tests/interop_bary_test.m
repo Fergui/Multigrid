@@ -1,11 +1,9 @@
-function interop_bary_test
-% test interop_bary
+% test interop_bary in an ideal case
 x=linspace(1,5,5);
 y=linspace(1,4,4);
 [X,Y]=meshgrid(x,y);
 dotest(X,Y,[2:0.25:4],[5:-0.5:1])
 dotest(X+0.1*rand(size(X)),Y+0.1*rand(size(Y)),[2:0.25:4],[5:-0.5:1])
-end
 
 function dotest(X,Y,xq,yq)
 fprintf('interpolation on mesh size %i %i to %i points\n',size(X),numel(xq)); 

@@ -1,4 +1,4 @@
-function pdirichlet_constr_test
+%% pdirichlet_constr_test
 
 s = 2;     % scale up factor
 n=[100*s,100*s]  % grid size
@@ -42,7 +42,6 @@ end
 u=pdirichlet_constr(n,h,bv,H,g,a,1e-11,1000);
 figure(1);mesh(X,Y,u); xlabel('x'); ylabel('y'); zlabel('Fire arrival time'); title(['Initial approximation with alpha=',num2str(a)]);
 drawnow
-end
 
 function [xq,yq]=circle_points(cx,cy,r,np)
     % create np points on circle with center c and radius r
