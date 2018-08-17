@@ -1,4 +1,4 @@
-function [Jmin,smin,um,Jlow] = oplinesearch(u,f,R,dir,p)
+function [Jmin,smin,um,Jlow] = linesearch(u,f,R,dir,p)
 % Call:
 % [Jmin,smin,um,Jlow] = oplinesearch(u,f,dir,p)
 %
