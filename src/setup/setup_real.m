@@ -1,6 +1,6 @@
 function [u,s,p] = setup_real(matfile)
 % Call:
-% [u,p,s] = setup_real(matfile)
+% [u,s,p] = setup_real(matfile)
 %
 % Example: 
 % [u,p,s] = setup_real('in/lasconchas.mat');
@@ -15,17 +15,14 @@ function [u,s,p] = setup_real(matfile)
 %               dx, dy      fire mesh spacing
 %               H           structure of interpolation operator matrices (one for each perimeter)
 %               g           structure of right sides of Hu=b for each H
-%               bc          structure of boundary conditions for each case = 
-%							= fixed values of the level set function where mask is false
-%               nfuelcat    structure with all the fuel data necessary to
-%                           compute ROS
+%               M           structure of masks for each perimeter
+%               bc          structure of boundary conditions for each case = fixed values of the level set function where mask is false
+%               nfuelcat    structure with all the fuel data necessary to compute ROS
 %               R           matrix, rate of spread, on same nodes as u
-%               ofunc       matlab function, objective function comparing 
-%                           x=||grad u||^2 and y=R^2 such that xy=1
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to x=||grad u||^2
-%               dfdG        matlab function, partial derivative of ofunc to
-%                           respect to y=R^2
+%               f           string with the objective function formula
+%               ofunc       matlab function, objective function comparing x=||grad u||^2 and y=R^2 such that xy=1
+%               dfdG        matlab function, partial derivative of ofunc to respect to x=||grad u||^2
+%               dfdG        matlab function, partial derivative of ofunc to respect to y=R^2
 %               q           q norm of the computation of J
 %               h           the stepsize to compute the gradient
 %               stepsize    step size for minimization
@@ -40,6 +37,7 @@ function [u,s,p] = setup_real(matfile)
 %               umin        array, minimal value of u
 %				bi			indeces to compute the first objective function (coordinate x)
 %				bj			indeces to compute the first objective function (coordinate y)
+%               exp         experiment type, string 'real'
 %   p       structure with:
 %               sdates      simulation dates
 %               stimes      simulation times from the simulation start
@@ -48,12 +46,10 @@ function [u,s,p] = setup_real(matfile)
 %               pdates      perimeter dates
 %               ptimes      perimeter times from the simulation start
 %               sframes     simulation frames where the perimeters are from
-%               ignS        structure with all the important variables from
-%                           the simulation in the ignition time
-%               perS        structure with all the important variables from
-%                           the simulation in the perimeter times
-%               perlS       structure with all the important variables from
-%                           the simulation a posteriori of the perimeter times
+%               ignS        structure with all the important variables from the simulation in the ignition time
+%               perS        structure with all the important variables from the simulation in the perimeter times
+%               perlS       structure with all the important variables from the simulation a posteriori of the perimeter times
+%               dynS        structure with the dynamic variables components winds (uf,vf) and fuel moisture (fmc_g) at all the time steps
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
