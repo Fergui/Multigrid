@@ -72,6 +72,7 @@ function [u,p] = setup_file(file,perF)
 %               umin        Array, minimal value of u
 %				bi			Indeces to compute the first objective function (coordinate x)
 %				bj			Indeces to compute the first objective function (coordinate y)
+%               exp         experiment type, string 'file'
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
@@ -169,21 +170,10 @@ p.ignS=ignS;
 p.perS=perS;
 p.dynS=dynS;
 %% Rate of spread
-% from initial approximation
-%p.R=ros_file(u,ignS,ignS,p);
-%p.R(~p.vmask)=0;
-% from computation using TIGN_G some time later the 2nd perimeter
-%p.R=ros_file(perlS.tign_g,ignS,ignS,p);
-%p.R(~p.vmask)=0;
-% from ROS of the simulation at the perimeter
-p.R=perS.ros;
+ds=dyninterp(u,p);
+ros=ros_file(u,ignS,ds,p);
+p.R=ros;
 p.R(~p.vmask)=0;
-% from initial approximation and using dynamic variables
-%ds=dyninterp(u,p);
-%ros=ros_file(u,ignS,ds,p);
-%p.ds=ds;
-%p.R=ros;
-%p.R(~p.vmask)=0;
 %% Type of objective function and derivatives
 syms x y
 f=1-x*y;
@@ -212,4 +202,5 @@ p.umax=ones(m,n)*p.per2_time;
 p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
 p.bj=1:n;
+p.exp='ideal';
 end
