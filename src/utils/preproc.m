@@ -6,10 +6,10 @@ function preproc(path,kmlfile,ilon,ilat)
 % Preprocess all the important data from wrfout and kml to a matlab file
 %
 % Example: 
-% preproc('/uufs/chpc.utah.edu/common/home/kochanski-group2/NASA_NOAA/Las_Conchas_4d_large','doc.kml',-106.5421,35.8121);
+% preproc('/uufs/chpc.utah.edu/common/home/kochanski-group2/NASA_NOAA/Las_Conchas_4d_large/wrfout_d04*','doc.kml',-106.5421,35.8121);
 %
 % Inputs
-%	path       path to simulation outputs foulder with wrfout files.
+%	path       path to simulation outputs wrfout files.
 % 	kmlfile    kml file with the shapefiles of the perimeters.
 %   ilon,ilat  lon,lat ignition coordinates
 %
@@ -18,12 +18,14 @@ function preproc(path,kmlfile,ilon,ilat)
 %-------------------------------------------------------------------------
 
 %% Compute times and ignition frame and time
-path=strcat(path,'/');
-wrfouts=dir(strcat(path,'wrfout_d04*'));
+wrfouts=dir(path);
 nf=size(wrfouts,1);
+if ~nf
+   error('Error, the path to the wrfout files is incorrect.') 
+end
 nignited=1;
 for i=1:nf
-    wname=strcat(path,wrfouts(i).name);
+    wname=strcat(wrfouts(i).folder,'/',wrfouts(i).name);
     if nignited
         s=nc2struct(wname,{'Times','FIRE_AREA'},{});
         if i==1
@@ -34,7 +36,7 @@ for i=1:nf
             p.stimes=zeros(1,nf*nn);
             for k=1:nn
                 p.sdates{k}=time(k,:);
-	        end
+            end
             stri=p.sdates{1};
         else
             time=char(s.times)';
@@ -56,7 +58,7 @@ for i=1:nf
     	p.sdates{k}=time(k-NN*(i-1),:);
     end
     for j=1:nn
-    	p.stimes(NN*(i-1)+j)=str2time(stri,time(j,:));
+    	p.stimes(NN*(i-1)+j)=str2times(stri,time(j,:));
     end
     if nn<NN
         p.sdates(NN*(i-1)+nn+1:end)=[];
@@ -64,7 +66,7 @@ for i=1:nf
     end
 end
 strs=p.sdates{ignF};
-p.tig=str2time(stri,strs);
+p.tig=str2times(stri,strs);
 
 %% Take shapefiles information from kmlfile
 kml=kml2struct(kmlfile);
@@ -76,7 +78,7 @@ p.ptimes=zeros(1,nkml);
 p.sframes=zeros(1,nkml);
 for i=1:nkml
 	p.pdates{i}=kml(i).Date;
- 	p.ptimes(i)=str2time(stri,p.pdates{i});
+ 	p.ptimes(i)=str2times(stri,p.pdates{i});
 	% Compute frames for perimeters
 	post=find(p.stimes-p.ptimes(i)>0);
 	if ~isempty(post)
@@ -89,7 +91,7 @@ end
 %% Take the necessary data at ignition point
 igfi=ceil(ignF/NN); % In which file is the ignition frame?
 igfr=ignF-floor(ignF/NN)*NN; % In which frame inside the file?
-wname=strcat(path,wrfouts(igfi).name);
+wname=strcat(wrfouts(igfi).folder,'/',wrfouts(igfi).name);
 p.ignS=nc2struct(wname,{'Times','FXLONG','XLONG','FXLAT','XLAT','FIRE_AREA','NFUEL_CAT','FMC_G','UF','VF','DZDXF','DZDYF'},{'DX','DY'},igfr);
 p.ignS.coordinates=[ilon,ilat];
 
@@ -106,7 +108,7 @@ for i=1:nkml
 		end
 		pfil=ceil(framel/NN);
 		pfrl=framel-floor(framel/NN)*NN;
-		wname=strcat(path,wrfouts(pfi).name);
+		wname=strcat(wrfouts(pfi).folder,'/',wrfouts(pfi).name);
 		wnamel=strcat(path,wrfouts(pfil).name);
 		p.perS(i)=nc2struct(wname,{'Times','ROS','FIRE_AREA','FMC_G','UF','VF'},{},pfr);
 		p.perlS(i)=nc2struct(wnamel,{'Times','ROS','TIGN_G','FIRE_AREA','FMC_G','UF','VF'},{},pfrl);
