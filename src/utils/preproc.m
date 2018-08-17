@@ -25,20 +25,20 @@ if ~nf
 end
 nignited=1;
 for i=1:nf
-    wname=strcat(wrfouts(i).folder,'/',wrfouts(i).name);
-    if nignited
-        s=nc2struct(wname,{'Times','FIRE_AREA'},{});
-        if i==1
-            time=char(s.times)';
-            NN=size(time,1);
-	        nn=size(time,1);
-            p.sdates=cell(1,nf*nn);
-            p.stimes=zeros(1,nf*nn);
-            for k=1:nn
-                p.sdates{k}=time(k,:);
-            end
-            stri=p.sdates{1};
-        else
+	wname=strcat(wrfouts(i).folder,'/',wrfouts(i).name);
+    	if nignited
+        	s=nc2struct(wname,{'Times','FIRE_AREA'},{});
+        	if i==1
+            		time=char(s.times)';
+            		NN=size(time,1);
+	    		nn=size(time,1);
+            		p.sdates=cell(1,nf*nn);
+            		p.stimes=zeros(1,nf*nn);
+            		for k=1:nn
+                		p.sdates{k}=time(k,:);
+            		end
+            		stri=p.sdates{1};
+        	else
             time=char(s.times)';
             nn=size(time,1);
         end
@@ -114,6 +114,12 @@ for i=1:nkml
 		p.perlS(i)=nc2struct(wnamel,{'Times','ROS','TIGN_G','FIRE_AREA','FMC_G','UF','VF'},{},pfrl);
 	end
 end
+
+%% Takin the dynamic variables at all the time steps
+for i=1:nf
+    wname=strcat(wrfouts(i).folder,'/',wrfouts(i).name);
+    s=nc2struct(wname,{'UF','VF','FMC_G'},{});
+    
 
 %% Saving the final structure
 save('setup.mat','p');
