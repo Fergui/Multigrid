@@ -1,4 +1,4 @@
-function um=multigrid(u,p)
+function [um,Jglobal]=multigrid(u,p)
 % Call:
 % um=multigrid(u,p)
 %
@@ -29,7 +29,8 @@ function um=multigrid(u,p)
 %               ros         boolean variable to know if compute or not a dynamic ROS
 %               rec         boolean variable to know if record the optimization
 % Outputs:
-%   um   Final solution of the multigrid method
+%   um        Final solution of the multigrid method
+%   Jglobal   Array of objective function values after each iteartion
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
