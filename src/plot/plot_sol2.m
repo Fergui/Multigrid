@@ -17,6 +17,13 @@ function plot_sol2(X,Y,u,H,g)
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
 
+[nx,ny]=size(X);
+if nx==1,
+    nx=X;
+    ny=Y;
+    [X,Y]=ndgrid(1:nx,1:ny);
+end
+
 mesh(X,Y,u), view(2), hold on,
 plot_constr_scatter(X,Y,H,g);
 end

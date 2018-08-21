@@ -1,31 +1,31 @@
-function plot_sol(u,H,g)
+function plot_sol(X,Y,u,H,g)
 % Call:
-% plot_sol(u,H,g)
+% plot_sol(X,Y,u,H,g)
 %
 % Description:
 % Plot the fire arrival time and the constraints in a 3D contour
 %
 % Inputs:
+%   X,Y   lon and lat matrices
 %   u   fire arrival time over the domain
 %   H   matrix of the constraints Hu=g
 %   g   right hand side of the constraints Hu=g
 % Outputs:
-%   The result is a 3D plot of the solution u with the constraints Hu=g.
+%   3D contour plot of the solution u with the constraints Hu=g.
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
 
-col=['-g','-b','-r'];
-uu=unique(g);
-for k=1:length(uu)
-    gs=g==uu(k);
-    us=H'*gs;
-    us=reshape(us,size(u));
-    contour3(flip(uu(k)*(us>0)),[uu(k),uu(k)],col(k)), hold on
+[nx,ny]=size(X);
+if nx==1,
+    nx=X;
+    ny=Y;
+    [X,Y]=ndgrid(1:nx,1:ny);
 end
 
-contour3(flip(u),[uu(1):(uu(end)-uu(1))/10:uu(end)],'k')
-
+uu=unique(g);
+contour3(X,Y,u,[uu(1):(uu(end)-uu(1))/10:uu(end)],'k'), hold on
+plot_constr_scatter(X,Y,H,g);
 end
 
