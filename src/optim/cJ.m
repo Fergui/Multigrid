@@ -1,23 +1,38 @@
 function [varargout] = cJ(u,R,p)
-%[r,fc] = cJ(u,R,p)
-%  Evaluates J(u)
-%[gJn,gJp,sngrad] = cJ(u,R,p)
-%  Evaluates the gradient of J from the positive and negative side and ||grad u||^2
-% Compute the objective function J using a particular size of u and R
-%in
+% Call:
+% [r,fc] = cJ(u,R,p)
+%
+% Description
+%  Evaluates J(u) in a particular patch of matrices u and R
+%
+% Call:
+% [gJn,gJp,sngrad] = cJ(u,R,p)
+%
+% Description:
+%  Evaluates the gradient of J from the positive and negative side and ||grad u||^2 in a particular patch of matrices u and R
+%
+% Inputs:
 %   u   fire arrival time array
 %   R   rate of spread array
 %   p   structure containing 
 %           dx,dy    spacing
-%           select   upwinding handle function
+%           select   upwinding handle matlab function
 %           q        norm of the objective function
-%           bo       boundaries where to compute the final solution
-%out
+%           bi,bj    boundaries where to compute the final solution
+%           ofunc    objective function f(x,y) comparing x=||grad u||^2 and y=R^2 where xy=1 
+%           dfdG     partial derivative of objective function respect to ||grad u||^2
+%           dfdR     partial derivative of objective function respect to R(u)^2
+%
+% Outputs:
 %   r       value of the objective function
 %   fc      contribution matrix
 %   gJn     4-D matrix, d(J(u))/du in positive direction
 %   gJp     4-D matrix, d(J(u))/du in negative direction
 %   sngrad  2-D matrix, ||grad u||^2
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 [m,n]=size(u);
 diffLx=zeros(m,n);
