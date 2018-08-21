@@ -28,6 +28,7 @@ function [um,Jglobal]=multigrid(u,p)
 %               multigrid   array, number of cycles in each mesh step size
 %               ros         boolean variable to know if compute or not a dynamic ROS
 %               rec         boolean variable to know if record the optimization
+%               vmask       (optional) matrix, true where the values of level set function can change
 % Outputs:
 %   um        Final solution of the multigrid method
 %   Jglobal   Array of objective function values after each iteartion
@@ -69,8 +70,8 @@ for cycle=1:p.mcycle
         end
         drawnow
         % Generating the possible range nodes (i,j) where we could apply the direction phy
-        if isfield(p,'mask')
-            [ii,jj,~]=find(p.mask);
+        if isfield(p,'vmask')
+            [ii,jj,~]=find(p.vmask);
             mm=min(ii)+s:max(ii)-s;
             nn=min(jj)+s:max(jj)-s;
         else
@@ -85,8 +86,8 @@ for cycle=1:p.mcycle
             fprintf('>>>>> cycle: %d/%d coarse mesh step: %d cycle in coarse mesh step: %d/%d <<<<< \n',cycle,p.mcycle,s,cs,ms);
             for i=mm
                 for j=nn
-                    if isfield(p,'mask')
-                        if p.mask(i,j)
+                    if isfield(p,'vmask')
+                        if p.vmask(i,j)
                             node=[i,j,s];
                             [um,Jop]=locallinesearch(um,node,phi,Jop,p);
                         end
