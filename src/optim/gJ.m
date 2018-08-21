@@ -1,15 +1,25 @@
 function [varargout] = gJ(u,p)
+% Call:
 % r = gradJ(u,p) 
-%           Evaluates J(u,p)
+%
+% Description:
+% Evaluates J(u,p)
+%
+% Call:
 % [gJp,gJn] = gradJ(u,p)
-%           Evaluates the gradient of J from the positive and negative
-%           side
+%
+% Description:
+% Evaluates the gradient of J from the positive and negative side
+%
+% Call:
 % [gJp,gJn,sngrad] = gradJ(u,p)
-%           Evaluates the gradient of J from the positive and negative side
-%           and ||grad u||^2
-%inputs:
-% u         level set function
-% p         parameter structure with fields:
+%
+% Description:
+% Evaluates the gradient of J from the positive and negative side and ||grad u||^2
+%
+% Inputs:
+%   u         level set function
+%   p         parameter structure with fields:
 %                vmask   matrix, true where the values of level set 
 %                        function can change  
 %                R       rate of spread, on same nodes as u
@@ -21,11 +31,15 @@ function [varargout] = gJ(u,p)
 %                        to ||grad u||^2
 %                dfdR    partial derivative of objective function respect 
 %                        to R(u)^2
-%outputs:
-% r         Value of J using u and p.
-% gJn       4-D matrix, d(J(u))/du in positive direction
-% gJp       4-D matrix, d(J(u))/du in negative direction
-% sngrad    2-D matrix, ||grad u||^2
+% Outputs:
+%   r         Value of J using u and p.
+%   gJn       4-D matrix, d(J(u))/du in positive direction
+%   gJp       4-D matrix, d(J(u))/du in negative direction
+%   sngrad    2-D matrix, ||grad u||^2
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 [m,n]=size(u);
 diffLx=zeros(m,n);
@@ -42,7 +56,6 @@ sngrad=diffx.^2+diffy.^2;
 ros=p.R.^2;
 c=p.ofunc(sngrad,ros);
 c(~p.vmask)=0;
-%figure(10), mesh(c');
 r=(sum(c(:).^p.q)*p.dx*p.dy)^(1/p.q);
 varargout{1}=r;
 if nargout >= 2
