@@ -1,11 +1,15 @@
 function [diff2,diff2du] = s_eno(diffL,diffR,ds)
-% diff2 = s_eno(diffL,diffR)
+% Call:
 % [diff2,diff2du] = s_eno(diffL,diffR,ds)
-%input:
+%
+% Description:
+% Computes the ENO upwinding method and the second derivatives using the method proposed in Angel Farguell thesis.
+%
+% Inputs:
 %   diffL       left difference ((u(i)-u(i-1))/ds)
 %   diffR       right difference ((u(i+1)-u(i))/ds)
 %   ds          distance between nodes
-%ouput:
+% Ouputs:
 %   diff2    derivate that ENO method computes
 %   diff2du  structure, with:
 %           lp  one sided derivative from the positive side of diff2 respect to ui-1 (left node)
@@ -14,6 +18,10 @@ function [diff2,diff2du] = s_eno(diffL,diffR,ds)
 %           cn  one sided derivative from the negative side of diff2 respect to ui (center node)
 %           rp  one sided derivative from the positive side of diff2 respect to ui+1 (right node)
 %           rn  one sided derivative from the negative side of diff2 respect to ui+1 (right node)
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 [m,n]=size(diffL);
 diff2=zeros(m,n);
