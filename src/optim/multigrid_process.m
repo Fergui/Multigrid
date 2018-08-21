@@ -53,41 +53,45 @@ function [um,Jg] = multigrid_process(setup)
 % Outputs:
 %       um          Fire arrival time resulting from the Multigrid method
 %       Jm          
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Setting up the case
 u=setup.u;
+[m,n]=size(u);
 p=setup.p;
-ops=['ideal','file','real'];
-if exp not in ops
-  error('')
-cas=1;
-u=u{cas};
-p.Hs=p.H;
-p.gs=p.g;
-H=[p.H{cas};p.H{cas+1}];
-g=[p.g{cas};p.g{cas+1}];
-R=representant(H);
-[Hn,ro]=condense(R);
-gn=g(ro);
-p.H=Hn;
-p.g=gn;
-H=Hn;
-g=gn;
-uu=unique(g);
-p.per1_time=uu(cas);
-p.per2_time=uu(cas+1);
-p.Rs=p.R;
-p.bcs=p.bc;
-p.bis=p.bi;
-p.bjs=p.bj;
-p.R=p.R{cas};
-p.bc=p.bc{cas};
-% Add a record variable
-% Places where to compute the multigrid optimization
-p.mask=p.M{cas};
-p.vmask=p.mask;
-p.X=s.ignS.fxlong; 
-p.Y=s.ignS.fxlat;
+if ismember(p.exp,['ideal','file'])
+    [p.X,p.Y]=meshgrid(1:m,1:n);
+elseif p.exp=='real'
+    p.X=s.ignS.fxlong; 
+    p.Y=s.ignS.fxlat;
+    cas=1;
+    u=u{cas};
+    p.Hs=p.H;
+    p.gs=p.g;
+    H=[p.H{cas};p.H{cas+1}];
+    g=[p.g{cas};p.g{cas+1}];
+    R=representant(H);
+    [Hn,ro]=condense(R);
+    gn=g(ro);
+    p.H=Hn;
+    p.g=gn;
+    uu=unique(p.g);
+    p.per1_time=uu(cas);
+    p.per2_time=uu(cas+1);
+    p.Rs=p.R;
+    p.bcs=p.bc;
+    p.bis=p.bi;
+    p.bjs=p.bj;
+    p.R=p.R{cas};
+    p.bc=p.bc{cas};
+    p.mask=p.M{cas};
+    p.vmask=p.mask;
+else
+  error('Error: The experiment type is not specified. \n p.exp has to be one of these three strings:\n 1) ideal: Ideal case. \n 2) file: Ideal case from WRF-SFIRE simulation. \n 3) real: Real case.');
+end
 
 %% Special configurations for the multigrid method
 p.max_step=1.0;
@@ -108,7 +112,6 @@ p.multigrid=zeros(1,maxs);
 for k=1:size(p.multigrid,2)+1
     p.multigrid(k)=k;
 end
-setu.p=p;setu.s=s;setu.u=u;
 
 %% Starting graphics
 fig=figure('units','normalized','outerposition',[0 0 1 1]);
