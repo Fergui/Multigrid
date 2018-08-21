@@ -123,8 +123,8 @@ h=suptitle(stitle);
 set(h,'FontSize',20,'FontWeight','Bold');
 subplot(2,2,1)
 ui=u;
-ui(u<(p.per1_time-100))=nan; ui(u>(p.per2_time+100))=nan;
-plot_sol(p.X,p.Y,ui,p.H,p.g), view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+ui(~p.vmask)=nan;
+plot_sol_mesh(p.X,p.Y,ui,p.H,p.g), view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
 drawnow
 if p.rec
   record(fig,1);

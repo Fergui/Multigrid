@@ -105,7 +105,7 @@ for cycle=1:p.mcycle
             subplot(2,2,4)
             ur=um;
             ur(~p.vmask)=nan;
-            mesh(ur'), view([0 1]), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+            plot_sol_mesh(p.X,p.Y,ur,p.H,p.g), view([0 1]), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
             drawnow
             if p.rec
                 record(p.fig,2);
