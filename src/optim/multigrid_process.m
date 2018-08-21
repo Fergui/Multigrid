@@ -64,6 +64,9 @@ u=setup.u;
 p=setup.p;
 if ismember(p.exp,['ideal','file'])
     [p.X,p.Y]=meshgrid(1:m,1:n);
+    R=representant(p.H);
+    [p.H,ro]=condense(R);
+    p.g=p.g(ro);
 elseif p.exp=='real'
     p.X=s.ignS.fxlong; 
     p.Y=s.ignS.fxlat;
@@ -103,7 +106,7 @@ p.mcycle=4;
 % Using penalty
 p.penalty=1; 
 % Using dynamic rate of spread 
-p.ros=1; 
+p.ros=0; 
 % Recording in a gif the optimization plots
 p.rec=0; 
 % Strategy vector for the multigrid method
