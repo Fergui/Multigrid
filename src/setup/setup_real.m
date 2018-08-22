@@ -149,6 +149,7 @@ for k=1:np
     tic
     u{k}=pdirichlet_constr(gs,h,bv,Hc,gc,a,relres,maxit);
     toc
+    u{k}=max(0,u{k});
 end
 
 fprintf('Computing fuel variables...\n'); 
