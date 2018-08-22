@@ -160,6 +160,7 @@ maxit=1000;
 tic
 u=pdirichlet_constr(gs,h,bv,p.H,p.g,a,relres,maxit);
 toc
+u=max(0,u);
 %% Boundary conditions
 p.bc=u;
 %% Type of objective function and derivatives
