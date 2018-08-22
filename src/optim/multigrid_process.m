@@ -33,9 +33,12 @@ function [um,Jg] = multigrid_process(setup)
 %                   bi			    indeces to compute the first objective function (coordinate x)
 %                   bj			    indeces to compute the first objective function (coordinate y)   
 %                   exp         experiment type, string. The options are:
-%                         1) 'ideal': Ideal case.
-%                         2) 'file': Ideal case from WRF-SFIRE simulation.
-%                         3) 'real': Real case from WRF-SFIRE simulation.
+%                         1) 'ideal': Ideal case
+%                         2) 'file': Ideal case from WRF-SFIRE simulation
+%                         3) 'real': Real case from WRF-SFIRE simulation
+%                   rec         boolean: if record the plots into a gif file
+%                   ros         boolean: if compute the Rate of spread dynamically
+%                   plt         boolean: if display the plots
 %           s  Structure with:
 %                   sdates      simulation dates
 %                   stimes      simulation times from the simulation start
@@ -97,7 +100,11 @@ else
 end
 
 %% Starting graphics
-fig=figure('units','normalized','outerposition',[0 0 1 1]);
+if p.plt
+    fig=figure('units','normalized','outerposition',[0 0 1 1]);
+else
+    fig=figure('units','normalized','outerposition',[0 0 1 1],'visible','off');
+end
 stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
 h=suptitle(stitle);
 set(h,'FontSize',20,'FontWeight','Bold');
