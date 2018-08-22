@@ -22,6 +22,10 @@ function ds=dyninterp(u,p)
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
 
+if min(u(:))<0
+    error('Error: Fire arrival time has negative values.');
+end
+
 tt=p.dynS.simt;
 [m,n]=size(u);
 un=zeros(m,n);
