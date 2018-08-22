@@ -184,7 +184,7 @@ dfdR = matlabFunction(diff(f,y),'Vars',[x y]);
 p.dfdG=dfdG;
 p.dfdR=dfdR;
 %% q-norm of J
-p.q=50;
+p.q=4;
 %% Others
 % grad_J.m
 p.h=0.0001; 

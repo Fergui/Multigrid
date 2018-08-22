@@ -102,18 +102,18 @@ p.nmesh=5;
 p.min_depth=1;
 p.max_depth=2;
 % Number of multigrid cycles
-p.mcycle=4; 
+p.mcycle=10; 
 % Using penalty
 p.penalty=1; 
 % Using dynamic rate of spread 
-p.ros=0; 
+p.ros=1; 
 % Recording in a gif the optimization plots
 p.rec=0; 
 % Strategy vector for the multigrid method
-maxs=5;
+maxs=4;
 p.multigrid=zeros(1,maxs);
 for k=1:size(p.multigrid,2)+1
-    p.multigrid(k)=k;
+    p.multigrid(k)=4;
 end
 
 %% Starting graphics
