@@ -111,12 +111,12 @@ set(h,'FontSize',20,'FontWeight','Bold');
 subplot(2,2,1)
 ui=u;
 ui(~p.vmask)=nan;
-plot_sol_mesh(p.X,p.Y,ui,p.H,p.g), view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+plot_sol_mesh(p.X,p.Y,ui,p.H,p.g); view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
 drawnow
 if p.rec
-  record(fig,1);
-  p.fig=fig;
+  record(['multi_',p.exp,'.gif'],fig);
 end
+p.fig=fig;
 
 %% Multigrid method
 [um,Jg]=multigrid(u,p);
