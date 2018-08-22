@@ -96,26 +96,6 @@ else
   error('Error: The experiment type is not specified. \n p.exp has to be one of these three strings:\n 1) ideal: Ideal case. \n 2) file: Ideal case from WRF-SFIRE simulation. \n 3) real: Real case.');
 end
 
-%% Special configurations for the multigrid method
-p.max_step=1.0;
-p.nmesh=5;
-p.min_depth=1;
-p.max_depth=2;
-% Number of multigrid cycles
-p.mcycle=10; 
-% Using penalty
-p.penalty=1; 
-% Using dynamic rate of spread 
-p.ros=1; 
-% Recording in a gif the optimization plots
-p.rec=0; 
-% Strategy vector for the multigrid method
-maxs=4;
-p.multigrid=zeros(1,maxs);
-for k=1:size(p.multigrid,2)+1
-    p.multigrid(k)=4;
-end
-
 %% Starting graphics
 fig=figure('units','normalized','outerposition',[0 0 1 1]);
 stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
