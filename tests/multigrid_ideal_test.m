@@ -16,9 +16,9 @@ p.penalty=1;
 % Using dynamic rate of spread 
 p.ros=0; 
 % Recording in a gif the optimization plots
-p.rec=1; 
+p.rec=0; 
 % Showing the plots
-p.plt=0;
+p.plt=1;
 % Strategy vector for the multigrid method
 maxs=4;
 p.multigrid=zeros(1,maxs);
