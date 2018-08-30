@@ -100,23 +100,25 @@ else
 end
 
 %% Starting graphics
-if p.plt
-    fig=figure('units','normalized','outerposition',[0 0 1 1]);
-else
-    fig=figure('units','normalized','outerposition',[0 0 1 1],'visible','off');
+if p.plt || p.rec
+    if p.plt
+        fig=figure('units','normalized','outerposition',[0 0 1 1]);
+    elseif p.rec
+        fig=figure('units','normalized','outerposition',[0 0 1 1],'visible','off');
+    end
+    stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
+    h=suptitle(stitle);
+    set(h,'FontSize',20,'FontWeight','Bold');
+    subplot(2,2,1)
+    ui=u;
+    ui(~p.vmask)=nan;
+    plot_sol_mesh(p.X,p.Y,ui,p.H,p.g); view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+    drawnow
+    if p.rec
+        record(['multi_',p.exp,'.gif'],fig);
+    end
+    p.fig=fig;
 end
-stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
-h=suptitle(stitle);
-set(h,'FontSize',20,'FontWeight','Bold');
-subplot(2,2,1)
-ui=u;
-ui(~p.vmask)=nan;
-plot_sol_mesh(p.X,p.Y,ui,p.H,p.g); view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
-drawnow
-if p.rec
-  record(['multi_',p.exp,'.gif'],fig);
-end
-p.fig=fig;
 
 %% Multigrid method
 [um,Jg]=multigrid(u,p);

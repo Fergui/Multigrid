@@ -59,16 +59,18 @@ for cycle=1:p.mcycle
         [X,Y]=meshgrid(x,y);
         D=(1-abs(X)/s).*(1-abs(Y)/s);
         phi=max(0,D);
-        % Plotting the coarse basis function
-        subplot(2,2,2)
-        if p.ros
-            ros=p.R;
-            ros(~p.vmask)=nan;
-            mesh(ros'), view([0 1]), title('ROS');
-        else
-            mesh(phi), tit=title(['Bilinear coarse grid function at mesh step ',num2str(s)]);  set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+        if p.plt || p.rec
+            % Plotting the coarse basis function
+            subplot(2,2,2)
+            if p.ros
+                ros=p.R;
+                ros(~p.vmask)=nan;
+                mesh(ros'), view([0 1]), title('ROS');
+            else
+                mesh(phi), tit=title(['Bilinear coarse grid function at mesh step ',num2str(s)]);  set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+            end
+            drawnow
         end
-        drawnow
         % Generating the possible range nodes (i,j) where we could apply the direction phy
         if isfield(p,'vmask')
             [ii,jj,~]=find(p.vmask);
@@ -99,16 +101,18 @@ for cycle=1:p.mcycle
             end
             r=gJ(um,p);
             Jglobal=[Jglobal;r];
-            % Plotting results of each spacing
-            subplot(2,2,3)
-            plot(0:size(Jglobal,1)-1,Jglobal(1:end),'.-'), tit=title('Objective function after each multigrid iteration'); set(tit,'FontSize',18,'FontWeight','Bold'), axi1=xlabel('Multigrid iteration'); set(axi1,'FontSize',20,'FontWeight','Bold'), axi2=zlabel('Fire arrival time'); set(axi2,'FontSize',20,'FontWeight','Bold'), axi3=ylabel('Objective function value'); set(axi3,'FontSize',20,'FontWeight','Bold')
-            subplot(2,2,4)
-            ur=um;
-            ur(~p.vmask)=nan;
-            plot_sol_mesh(p.X,p.Y,ur,p.H,p.g), view([0 1]), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
-            drawnow
-            if p.rec
-                record(['multi_',p.exp,'.gif'],p.fig);
+            if p.plt || p.rec
+                % Plotting results of each spacing
+                subplot(2,2,3)
+                plot(0:size(Jglobal,1)-1,Jglobal(1:end),'.-'), tit=title('Objective function after each multigrid iteration'); set(tit,'FontSize',18,'FontWeight','Bold'), axi1=xlabel('Multigrid iteration'); set(axi1,'FontSize',20,'FontWeight','Bold'), axi2=zlabel('Fire arrival time'); set(axi2,'FontSize',20,'FontWeight','Bold'), axi3=ylabel('Objective function value'); set(axi3,'FontSize',20,'FontWeight','Bold')
+                subplot(2,2,4)
+                ur=um;
+                ur(~p.vmask)=nan;
+                plot_sol_mesh(p.X,p.Y,ur,p.H,p.g), view([0 1]), tit=title(['T: Cycle=',num2str(cycle),'/',num2str(p.mcycle),' - Coarse mesh step=',num2str(s),' - Cycle in mesh step=',num2str(cs),'/',num2str(ms),' J(T)=',num2str(Jglobal(end))]); set(tit,'FontSize',15,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+                drawnow
+                if p.rec
+                    record(['multi_',p.exp,'.gif'],p.fig);
+                end
             end
             % Updating ROS dynamically
             if p.ros

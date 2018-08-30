@@ -1,18 +1,18 @@
 function [varargout] = gJ(u,p)
 % Call:
-% r = gradJ(u,p) 
+% r = gJ(u,p) 
 %
 % Description:
 % Evaluates J(u,p)
 %
 % Call:
-% [gJp,gJn] = gradJ(u,p)
+% [gJp,gJn] = gJ(u,p)
 %
 % Description:
 % Evaluates the gradient of J from the positive and negative side
 %
 % Call:
-% [gJp,gJn,sngrad] = gradJ(u,p)
+% [gJp,gJn,sngrad] = gJ(u,p)
 %
 % Description:
 % Evaluates the gradient of J from the positive and negative side and ||grad u||^2
@@ -50,15 +50,20 @@ diffLx(2:end-1,2:end-1)=(u(2:end-1,2:end-1)-u(1:end-2,2:end-1))/p.dx;
 diffRx(2:end-1,2:end-1)=(u(3:end,2:end-1)-u(2:end-1,2:end-1))/p.dx;
 diffLy(2:end-1,2:end-1)=(u(2:end-1,2:end-1)-u(2:end-1,1:end-2))/p.dy;
 diffRy(2:end-1,2:end-1)=(u(2:end-1,3:end)-u(2:end-1,2:end-1))/p.dy;
-[diffx,diffGxdu]=p.select(diffLx,diffRx,p.dx);
-[diffy,diffGydu]=p.select(diffLy,diffRy,p.dy);
+if nargout < 2
+    diffx=p.select(diffLx,diffRx,p.dx);
+    diffy=p.select(diffLy,diffRy,p.dy);
+else
+    [diffx,diffGxdu]=p.select(diffLx,diffRx,p.dx);
+    [diffy,diffGydu]=p.select(diffLy,diffRy,p.dy);
+end
 sngrad=diffx.^2+diffy.^2;
 ros=p.R.^2;
 c=p.ofunc(sngrad,ros);
 c(~p.vmask)=0;
 r=(sum(c(:).^p.q)*p.dx*p.dy)^(1/p.q);
 varargout{1}=r;
-if nargout >= 2
+if nargout > 1
     dfdG=zeros(m,n);
     dfdR=zeros(m,n);
     dfdG(2:end-1,2:end-1)=p.dfdG(sngrad(2:end-1,2:end-1),ros(2:end-1,2:end-1));
@@ -83,7 +88,7 @@ if nargout >= 2
     gJp=r^(1-p.q)*sp;
     varargout{1}=gJn;
     varargout{2}=gJp;
-    if nargout>=3
+    if nargout > 2
         varargout{3}=sngrad;
     end
 end

@@ -34,7 +34,7 @@ step_high=p.max_step;
 Jmins=zeros(p.max_depth,1);
 Jdiffs=zeros(p.max_depth,1);
 smins=zeros(p.max_depth,1);
-[Jlow,~]=f(u,R,p);
+Jlow=f(u,R,p);
 for d=1:p.max_depth
     % defining the steps and the line search array Jls
     steps=linspace(step_low,step_high,p.nmesh+2);
@@ -43,7 +43,7 @@ for d=1:p.max_depth
         % new u
         v=u+steps(i)*dir;
         % difference on f
-        [fv,~]=f(v,R,p);
+        fv=f(v,R,p);
         % penalty term
         if p.penalty
             penalty=zeros(size(u));

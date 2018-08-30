@@ -1,4 +1,10 @@
-function [diff2,diff2du] = s_eno(diffL,diffR,ds)
+function [varargout] = s_eno(diffL,diffR,ds)
+% Call:
+% diff2 = s_eno(diffL,diffR,ds)
+%
+% Description:
+% Computes the ENO upwinding method.
+%
 % Call:
 % [diff2,diff2du] = s_eno(diffL,diffR,ds)
 %
@@ -26,46 +32,57 @@ function [diff2,diff2du] = s_eno(diffL,diffR,ds)
 [m,n]=size(diffL);
 diff2=zeros(m,n);
 z=zeros(m,n);
-diff2du=struct('lp',z,'ln',z,'cp',z,'cn',z,'rp',z,'rn',z);
 C=(diffL<0.).*(diffR<0.);
 diff2=diff2+C.*diffR;
-diff2du.cp=diff2du.cp+C*(-1/ds);
-diff2du.cn=diff2du.cn+C*(-1/ds);
-diff2du.rp=diff2du.rp+C*(1/ds);
-diff2du.rn=diff2du.rn+C*(1/ds);
 C=(diffL>0.).*(diffR>0.);
 diff2=diff2+C.*diffL;
-diff2du.lp=diff2du.lp+C*(-1/ds);
-diff2du.ln=diff2du.ln+C*(-1/ds);
-diff2du.cp=diff2du.cp+C*(1/ds);
-diff2du.cn=diff2du.cn+C*(1/ds);
 C=(diffL>=0.).*(diffR<0.).*(diffL<-diffR); % abs(diffR)>=abs(diffL)
-diff2=diff2+C.*diffR;
-diff2du.cp=diff2du.cp+C*(-1/ds);
-diff2du.cn=diff2du.cn+C*(-1/ds);
-diff2du.rp=diff2du.rp+C*(1/ds);
-diff2du.rn=diff2du.rn+C*(1/ds);    
+diff2=diff2+C.*diffR;  
 C=(diffL>0.).*(diffR<=0.).*(diffL>-diffR);
 diff2=diff2+C.*diffL;
-diff2du.lp=diff2du.lp+C*(-1/ds);
-diff2du.ln=diff2du.ln+C*(-1/ds);
-diff2du.cp=diff2du.cp+C*(1/ds);
-diff2du.cn=diff2du.cn+C*(1/ds);
 C=(diffL>0.).*(diffR<0.).*(diffL==-diffR);
 diff2=diff2+C.*diffL;
-diff2du.ln=diff2du.ln+C*(-1/ds);
-diff2du.cp=diff2du.cp+C*(1/ds);
-diff2du.cn=diff2du.cn+C*(1/ds);
-diff2du.rn=diff2du.rn+C*(1/ds);
-C=(diffL<0.).*(diffR==0.);
-diff2du.cp=diff2du.cp+C*(-1/ds);
-diff2du.rn=diff2du.rn+C*(1/ds);
-C=(diffL==0.).*(diffR>0.);
-diff2du.ln=diff2du.ln+C*(-1/ds);
-diff2du.cp=diff2du.cp+C*(1/ds);
-C=(diffL==0.).*(diffR==0.);
-diff2du.ln=diff2du.ln+C*(-1/ds);
-diff2du.cp=diff2du.cp+C*(1/ds);
-diff2du.rn=diff2du.rn+C*(1/ds);
+varargout{1}=diff2;
+
+if nargout > 1
+    diff2du=struct('lp',z,'ln',z,'cp',z,'cn',z,'rp',z,'rn',z);
+    C=(diffL<0.).*(diffR<0.);
+    diff2du.cp=diff2du.cp+C*(-1/ds);
+    diff2du.cn=diff2du.cn+C*(-1/ds);
+    diff2du.rp=diff2du.rp+C*(1/ds);
+    diff2du.rn=diff2du.rn+C*(1/ds);
+    C=(diffL>0.).*(diffR>0.);
+    diff2du.lp=diff2du.lp+C*(-1/ds);
+    diff2du.ln=diff2du.ln+C*(-1/ds);
+    diff2du.cp=diff2du.cp+C*(1/ds);
+    diff2du.cn=diff2du.cn+C*(1/ds);
+    C=(diffL>=0.).*(diffR<0.).*(diffL<-diffR); % abs(diffR)>=abs(diffL)
+    diff2du.cp=diff2du.cp+C*(-1/ds);
+    diff2du.cn=diff2du.cn+C*(-1/ds);
+    diff2du.rp=diff2du.rp+C*(1/ds);
+    diff2du.rn=diff2du.rn+C*(1/ds);  
+    C=(diffL>0.).*(diffR<=0.).*(diffL>-diffR);
+    diff2du.lp=diff2du.lp+C*(-1/ds);
+    diff2du.ln=diff2du.ln+C*(-1/ds);
+    diff2du.cp=diff2du.cp+C*(1/ds);
+    diff2du.cn=diff2du.cn+C*(1/ds);
+    C=(diffL>0.).*(diffR<0.).*(diffL==-diffR);
+    diff2du.ln=diff2du.ln+C*(-1/ds);
+    diff2du.cp=diff2du.cp+C*(1/ds);
+    diff2du.cn=diff2du.cn+C*(1/ds);
+    diff2du.rn=diff2du.rn+C*(1/ds);
+    C=(diffL<0.).*(diffR==0.);
+    diff2du.cp=diff2du.cp+C*(-1/ds);
+    diff2du.rn=diff2du.rn+C*(1/ds);
+    C=(diffL==0.).*(diffR>0.);
+    diff2du.ln=diff2du.ln+C*(-1/ds);
+    diff2du.cp=diff2du.cp+C*(1/ds);
+    C=(diffL==0.).*(diffR==0.);
+    diff2du.ln=diff2du.ln+C*(-1/ds);
+    diff2du.cp=diff2du.cp+C*(1/ds);
+    diff2du.rn=diff2du.rn+C*(1/ds);
+    varargout{2}=diff2du;
+end
+
 end
 
