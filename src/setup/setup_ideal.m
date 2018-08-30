@@ -154,7 +154,7 @@ uu=unique(p.g);
 gs=[m,n];
 h=[p.dx,p.dy];
 a=1.4;
-bv=uu(end);
+bv=uu(end)+2;
 relres=1e-11;
 maxit=1000;
 tic
@@ -173,7 +173,7 @@ dfdR = matlabFunction(diff(f,y),'Vars',[x y]);
 p.dfdG=dfdG;
 p.dfdR=dfdR;
 %% q-norm of J
-p.q=10;
+p.q=4;
 %% Others
 % grad_J.m
 p.h=0.0001; 
