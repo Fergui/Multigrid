@@ -14,7 +14,7 @@ p.mcycle=4;
 % Using penalty
 p.penalty=1; 
 % Using dynamic rate of spread 
-p.ros=0; 
+p.ros=1; 
 % Recording in a gif the optimization plots
 p.rec=0; 
 % Showing the plots
@@ -27,7 +27,9 @@ for k=1:size(p.multigrid,2)+1
 end
 p.multigrid=flip(p.multigrid);
 
-s.u=u; s.p=p;
+pr=s;
+clear s
+s.u=u; s.p=p; s.s=pr;
 clear u p
 % Run the multigrid method
 [um,Jop] = multigrid_process(s);

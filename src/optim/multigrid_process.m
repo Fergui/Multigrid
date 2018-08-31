@@ -71,6 +71,7 @@ if ismember(p.exp,['ideal','file'])
     [p.H,ro]=condense(R);
     p.g=p.g(ro);
 elseif p.exp=='real'
+    s=setup.s;
     p.X=s.ignS.fxlong; 
     p.Y=s.ignS.fxlat;
     cas=1;
