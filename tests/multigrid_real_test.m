@@ -1,8 +1,14 @@
-%% Multigrid Ideal from WRF-SFIRE execution test
-% It is required a wrfout ideal case file set in tests/data/wrfout
+%% Multigrid Real from WRF-SFIRE execution test
+% It is required a file test/data/setup.mat 
 
 % Setup the case
-[u,p] = setup_file('data/wrfout',50);
+load data/setup.mat 
+p.exp='real';
+p.max_step=1.0;
+p.nmesh=5;
+p.max_depth=2;
+p.min_depth=1;
+p.mcycle=4;
 
 % Special configurations for the multigrid method
 % Using penalty

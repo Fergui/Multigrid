@@ -155,7 +155,7 @@ p.g=[gi;gp];
 gs=[m,n];
 h=[p.dx,p.dy];
 a=1.4;
-bv=p.per2_time*2;
+bv=p.per2_time*1.5;
 relres=1e-11;
 maxit=1000;
 tic
@@ -195,10 +195,11 @@ p.numsteps=5000;
 p.max_iter=100;
 p.select=@s_eno;
 % linesearch.m 
-p.max_step=4.;
+p.max_step=1.0;
 p.nmesh=5;
-p.max_depth=20;
-p.min_depth=2;
+p.max_depth=2;
+p.min_depth=1;
+p.mcycle=4;
 p.umax=ones(m,n)*p.per2_time;
 p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
