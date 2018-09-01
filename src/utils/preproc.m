@@ -70,11 +70,11 @@ for i=1:nf
         end
     end
     for j=1:nn
-        p.stimes(NN*(i-1)+j)=str2time(stri,time(j,:));
+        p.stimes(NN*(i-1)+j)=str2times(stri,time(j,:));
     end
 end
 strs=p.sdates(ignF,:);
-p.tig=str2time(stri,strs);
+p.tig=str2times(stri,strs);
 
 %% Take shapefiles information from kmlfile
 kml=kml2struct(kmlfile);
@@ -87,7 +87,7 @@ p.ptimes=zeros(1,nkml);
 p.sframes=zeros(1,nkml);
 for i=1:nkml
         p.pdates{i}=kml(i).Date;
-        p.ptimes(i)=str2time(stri,p.pdates{i});
+        p.ptimes(i)=str2times(stri,p.pdates{i});
         % Compute frames for perimeters
         post=find(p.stimes-p.ptimes(i)>0);
         if ~isempty(post)
