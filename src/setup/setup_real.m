@@ -56,6 +56,7 @@ function [u,s,p] = setup_real(matfile)
 %-------------------------------------------------------------------------
 
 %% Take data from files
+fprintf('Getting data from the input file...\n')
 load(matfile);
 
 fprintf('Computing necessary mesh variables...\n');
@@ -164,7 +165,9 @@ fprintf('Computing ROS...\n');
 R=cell(np,1);
 R{1}=ros_file(u{1},p.ignS,p.ignS,s);
 for k=2:np
-    R{k}=ros_file(u{k},p.ignS,p.perS(k-1),s);
+    ros=ros_file(u{k},p.ignS,p.perS(k-1),s);
+    ros(~p.vmask)=0;
+    R{k}=ros;
 end
 s.Ri=R;
 % from fire arrival time at the end of the simulation and winds from
@@ -175,17 +178,32 @@ for k=1:np
 end
 s.T=T;
 R=cell(np,1);
-R{1}=ros_file(T{1},p.ignS,p.ignS,s);
+ros=ros_file(T{1},p.ignS,p.ignS,s);
+ros(~p.vmask)=0;
+R{1}=ros;
 for k=2:np
-    R{k}=ros_file(T{k},p.ignS,p.perS(k-1),s);
+    ros=ros_file(T{k},p.ignS,p.perS(k-1),s);
+    ros(~p.vmask)=0;
+    R{k}=ros;
 end
 s.Rd=R;
 % from ROS at the perimeter time
 R=cell(np,1);
 for k=1:np
-   R{k}=p.perS(k).ros; 
+   ros=p.perS(k).ros; 
+   ros(~p.vmask)=0;
+   R{k}=ros;
 end
-s.R=R;
+s.Rp=R;
+% from interpolation
+R=cell(np,1);
+for k=1:np
+   ds=dyninterp(u{k},p);
+   ros=ros_file(u{k},ignS,ds,p);
+   ros(~p.vmask)=0;
+   R{k}=ros;
+end
+p.R=R;
 
 fprintf('Defining final variables...\n');
 %% Boundary conditions
