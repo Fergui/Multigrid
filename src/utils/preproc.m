@@ -6,7 +6,7 @@ function preproc(path,kmlfile,itime,ilon,ilat,dyn)
 % Preprocess all the important data from wrfout and kml to a matlab file
 %
 % Example: 
-% preproc('/glade/u/home/angelfc/project/lasconchas/simulation_large','doc.kml','2011-06-26_19:00:00',-106.542141,35.812056,1);
+% preproc('/glade/u/home/angelfc/project/lasconchas/simulation_large','/glade/u/home/angelfc/project/lasconchas/doc.kml','2011-06-26_19:00:00',-106.542141,35.812056,1);
 %
 % Inputs
 %	path        path to simulation outputs wrfout files.
