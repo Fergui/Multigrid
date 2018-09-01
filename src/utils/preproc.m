@@ -125,6 +125,7 @@ for i=1:nkml
 end
     
 %% Saving the final structure
+fprintf('Saving the results...\n');
 save('setup.mat','p','-v7.3');
 fprintf('SUCCESS\n');
 end
