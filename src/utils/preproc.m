@@ -9,12 +9,12 @@ function preproc(path,kmlfile,itime,ilon,ilat,dyn)
 % preproc('/glade/u/home/angelfc/project/lasconchas/simulation_large','doc.kml','2011-06-26_19:00:00',-106.542141,35.812056,1);
 %
 % Inputs
-%	path       path to simulation outputs wrfout files.
-% 	kmlfile    kml file with the shapefiles of the perimeters.
-%	itime      ignition time
-%   ilon,ilat  lon,lat ignition coordinates.
-%   dyn        0: do not save dynS structure.
-%              1: save dynS structure.
+%	path        path to simulation outputs wrfout files.
+% 	kmlfile     kml file with the shapefiles of the perimeters.
+%	itime       ignition time
+%   ilon,ilat   lon,lat ignition coordinates.
+%   dyn         0: do not save dynS structure.
+%               1: save dynS structure.
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
