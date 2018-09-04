@@ -39,7 +39,7 @@ function [um,Jg] = multigrid_process(setup)
 %                   rec         boolean: if record the plots into a gif file
 %                   ros         boolean: if compute the Rate of spread dynamically
 %                   plt         boolean: if display the plots
-%           s  Structure with:
+%           s  Structure only necessary for the real cases and with:
 %                   sdates      simulation dates
 %                   stimes      simulation times from the simulation start
 %                   tig         ignition time from the simulation start
