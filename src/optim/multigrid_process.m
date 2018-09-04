@@ -75,8 +75,11 @@ if ismember(p.exp,['ideal','file'])
     p.g=p.g(ro);
 elseif p.exp=='real'
     s=setup.s;
-    p.X=s.ignS.fxlong; 
-    p.Y=s.ignS.fxlat;
+    p.ignS=s.ignS;
+    p.dynS=s.dynS;
+    clear s
+    p.X=p.ignS.fxlong; 
+    p.Y=p.ignS.fxlat;
     cas=1;
     u=u{cas};
     p.Hs=p.H;
@@ -91,14 +94,16 @@ elseif p.exp=='real'
     uu=unique(p.g);
     p.per1_time=uu(cas);
     p.per2_time=uu(cas+1);
-    p.Rs=p.R;
     p.bcs=p.bc;
     p.bis=p.bi;
     p.bjs=p.bj;
-    p.R=p.R{cas};
     p.bc=p.bc{cas};
     p.mask=p.M{cas};
     p.vmask=p.mask;
+    ds=dyninterp(u,p);
+    ros=ros_file(u,p.ignS,ds,p);
+    ros(~p.vmask)=0;
+    p.R=ros;
 else
   error('Error: The experiment type is not specified. \n p.exp has to be one of these three strings:\n 1) ideal: Ideal case. \n 2) file: Ideal case from WRF-SFIRE simulation. \n 3) real: Real case.');
 end
