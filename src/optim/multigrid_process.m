@@ -53,6 +53,9 @@ function [um,Jg] = multigrid_process(setup)
 %                               the simulation in the perimeter times
 %                   perlS       structure with all the important variables from
 %                               the simulation a posteriori of the perimeter times
+%                   dynS        the prognostic variables necessary at all the time 
+%                               steps in order compute the dynamic ROS 
+%                               (only necessary when p.ros=1)
 % Outputs:
 %       um          Fire arrival time resulting from the Multigrid method
 %       Jm          
