@@ -9,7 +9,7 @@ p.max_step=1.0;
 p.nmesh=5;
 p.max_depth=2;
 p.min_depth=1;
-p.mcycle=10;
+p.mcycle=4;
 % Using penalty
 p.penalty=1; 
 % Using dynamic rate of spread 
