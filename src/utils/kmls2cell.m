@@ -18,8 +18,9 @@ kmls=dir(regex);
 nn=length(kmls);
 kmlcell=cell(nn,1);
 for i=1:nn
-    kmlcell{i}=kml2struct(strcat(kmls(i).folder,'/',kmls(i).name));
-    kmlcell{i}.Name=kmls(i).name;
+    file=strcat(kmls(i).folder,'/',kmls(i).name);
+    kmlcell{i}=kml2struct(file);
+    kmlcell{i}.Name=file;
     date=kmls(i).name(17:29);
     kmlcell{i}.Date=strcat(date(1:4),'-',date(5:6),'-',date(7:8),'T',date(10:11),':',date(12:13),':00-00:00');
 end
