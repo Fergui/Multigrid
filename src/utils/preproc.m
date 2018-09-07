@@ -1,6 +1,6 @@
-function preproc(path,kmlfile,itime,ilon,ilat,dyn)
+function preproc(path,kmlpath,itime,ilon,ilat,dyn)
 % Call:
-% preproc(path,kmlfile,fuels)
+% preproc(path,kmlpath,itime,ilon,ilat,dyn)
 %
 % Description:
 % Preprocess all the important data from wrfout and kml to a matlab file
@@ -10,7 +10,7 @@ function preproc(path,kmlfile,itime,ilon,ilat,dyn)
 %
 % Inputs
 %	path        path to simulation outputs wrfout files.
-% 	kmlfile     kml file with the shapefiles of the perimeters.
+% 	kmlfile     kml path regex to kml files with the shapefiles of the perimeters.
 %	itime       ignition time
 %      ilon,ilat   lon,lat ignition coordinates.
 %      dyn         0: do not save dynS structure.
@@ -36,7 +36,7 @@ for i=1:nf
     nn=size(time,1);
     if i==1
         NN=size(time,1);
-        kk=1;
+        kk=2;
         p.sdates=time;
         p.stimes=zeros(1,nf*NN);
         stri=time(1,:);
@@ -77,7 +77,7 @@ strs=p.sdates(ignF,:);
 p.tig=str2times(stri,strs);
 
 %% Take shapefiles information from kmlfile
-kml=kml2struct(kmlfile);
+kml=kmls2cell(kmlpath);
 dsize=size(kml(1).Date,2);
 p.kml=kml;
 nkml=size(kml,2);
