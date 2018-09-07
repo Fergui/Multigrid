@@ -23,7 +23,7 @@ p.ros=1;
 % Recording in a gif the optimization plots
 p.rec=0; 
 % Showing the plots
-p.plt=1;
+p.plt=0;
 % Strategy vector for the multigrid method
 maxs=4;
 p.multigrid=zeros(1,maxs);
