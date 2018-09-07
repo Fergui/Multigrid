@@ -3,7 +3,7 @@ function kmlcell = kmls2cell(regex)
 % kmlcell = kmls2cell(regex)
 %
 % Description:
-% From a regex of kml files, it creates a cell of structs including all the kml files.
+% From a regex of kml files, it generates an array of structs including all the kml files.
 %
 % Inputs:
 %   regex     path to a kml files using a regex expresion
@@ -16,14 +16,12 @@ function kmlcell = kmls2cell(regex)
 
 kmls=dir(regex);
 nn=length(kmls);
-kmlcell=cell(nn,1);
-for i=1:nn
+kmlcell=kml2struct(strcat(kmls(1).folder,'/',kmls(1).name));
+for i=2:nn
     file=strcat(kmls(i).folder,'/',kmls(i).name);
-    kmlcell{i}=kml2struct(file);
-    kmlcell{i}.Name=file;
-    date=kmls(i).name(17:29);
-    kmlcell{i}.Date=strcat(date(1:4),'-',date(5:6),'-',date(7:8),'T',date(10:11),':',date(12:13),':00-00:00');
+    kml=kml2struct(file);
+    kmlcell=[kmlcell;kml];
 end
-
+    
 end
 
