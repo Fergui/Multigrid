@@ -16,10 +16,19 @@ function kmlcell = kmls2cell(regex)
 
 kmls=dir(regex);
 nn=length(kmls);
-kmlcell=kml2struct(strcat(kmls(1).folder,'/',kmls(1).name));
+file=strcat(kmls(1).folder,'/',kmls(1).name);
+kmlcell=kml2struct(file);
+mm=length(kmlcell);
+for j=1:mm
+    kmlcell(j).Name=file;
+end
 for i=2:nn
     file=strcat(kmls(i).folder,'/',kmls(i).name);
     kml=kml2struct(file);
+    mm=length(kml);
+    for j=1:mm
+        kml(j).Name=file;
+    end
     kmlcell=[kmlcell;kml];
 end
     
