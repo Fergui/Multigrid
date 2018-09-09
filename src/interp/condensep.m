@@ -1,16 +1,23 @@
 function [H,rows,prows] = condensep(A,b,T)
-%[H,rows] = condensep(A,b,T)
-%[H,rows,prows] = condensep(A,b,T)
+% Call:
+% [H,rows] = condensep(A,b,T)
+% [H,rows,prows] = condensep(A,b,T)
+%
+% Description:
 % Condense the rows of H in a strategic way to have the right side compatible
-% in
+%
+% Inputs:
 %   A     sparse matrix to condense
 %   b     right hand side of constraints Ax=b
-%   T     time we want in the conflicting places (both perimeters are at
-%         the same place)
-% out
+%   T     time we want in the conflicting places (both perimeters are at the same place)
+% Outputs:
 %   H     sparse matrix condensed
 %   rows  rows of the initial matrix A of the final matrix H
 %   prows final rows of A which stays in H and were conflicting places
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Removing rows with empty intersection of nodes depending on
 % Initialization
