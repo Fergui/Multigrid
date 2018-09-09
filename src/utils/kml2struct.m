@@ -64,7 +64,13 @@ for ii = 1:Nos
     % Find Object Name Field
     bucket = regexp(objectStrings{ii},'<name.*?>.+?</name>','match');
     if isempty(bucket)
-        name = 'undefined';
+        bucket = regexp(objectStrings{ii},'<SimpleData name="FIRE_NAME">.+?</SimpleData>','match');
+        if isempty(bucket)
+            name = 'undefined';
+        else
+            name = regexprep(bucket{1},'<SimpleData name="FIRE_NAME">\s*','');
+            name = regexprep(name,'\s*</SimpleData>','');
+        end
     else
         % Clip off flags
         name = regexprep(bucket{1},'<name.*?>\s*','');
@@ -74,7 +80,17 @@ for ii = 1:Nos
     % Find Object Date Field
     bucket = regexp(objectStrings{ii},'<TimeSpan.*?>.+?</TimeSpan>','match');
     if isempty(bucket)
-        date = 'undefined';
+        bucket = regexp(objectStrings{ii},'<SimpleData name="DATE_">.+?</SimpleData>','match');
+        if isempty(bucket)
+            date = 'undefined';
+        else
+            dat = regexprep(bucket{1},'<SimpleData name="DATE_">\s*','');
+            dat = regexprep(dat,'\s*</SimpleData>','');
+            bucket2 = regexp(objectStrings{ii},'<SimpleData name="TIME_">.+?</SimpleData>','match');
+            time = regexprep(bucket2{1},'<SimpleData name="TIME_">\s*','');
+            time = regexprep(time,'\s*</SimpleData>','');
+            date = [dat(1:4),'-',dat(6:7),'-',dat(9:10),'T',time(1:2),':',time(3:4),':00-00:00'];
+        end
     else
         % Clip off flags
         date = regexprep(bucket{1},'<TimeSpan.*?><begin>\s*','');
