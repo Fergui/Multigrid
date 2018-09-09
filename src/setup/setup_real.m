@@ -1,6 +1,6 @@
 function [u,s,p] = setup_real(matfile)
 % Call:
-% [u,s,p] = setup_real(matfile)
+% [u,p,s] = setup_real(matfile)
 %
 % Example: 
 % [u,p,s] = setup_real('tests/data/in.mat');
