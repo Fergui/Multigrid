@@ -21,6 +21,7 @@ function preproc(path,kmlpath,itime,ilon,ilat,dyn)
 %-------------------------------------------------------------------------
 
 %% Compute times and ignition frame and time
+p.ros=dyn;
 path=strcat(path,'/');
 wrfouts=dir(strcat(path,'wrfout_d04*'));
 nf=size(wrfouts,1);
@@ -123,7 +124,7 @@ for i=1:nkml
                 p.perlS(i)=nc2struct(wnamel,{'Times','ROS','TIGN_G','FIRE_AREA','FMC_G','UF','VF'},{},pfrl);
         end
 end
-    
+
 %% Saving the final structure
 fprintf('Saving the results...\n');
 save('in.mat','p','-v7.3');
