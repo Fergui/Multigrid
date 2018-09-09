@@ -1,13 +1,21 @@
 function [H,g] = condense_arti(A,b,u)
-%[H,g] = condense_arti(A,b,u)
+% Call:
+% [H,g] = condense_arti(A,b,u)
+%
+% Description:
 % Condense the rows of H and creates an artificial perimeter
-% in
+%
+% Inputs:
 %   A     sparse matrix to condense
 %   b     right hand side of constraints Ax=b
 %   u     fire arrival time to know where the solution is going
-% out
+% Outputs:
 %   H     sparse matrix condensed
 %   g     right hand side compatible with the new H, s.t. Hx=g iff Ax=b
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 % Initialization
 uu=unique(b);
