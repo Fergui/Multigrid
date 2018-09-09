@@ -3,7 +3,7 @@ function [u,s,p] = setup_real(matfile)
 % [u,s,p] = setup_real(matfile)
 %
 % Example: 
-% [u,p,s] = setup_real('in/lasconchas.mat');
+% [u,p,s] = setup_real('tests/data/in.mat');
 %
 % Inputs: 
 %   matfile   Matlab file with an structure p on it containing all the 
@@ -195,15 +195,19 @@ for k=1:np
    R{k}=ros;
 end
 s.Rp=R;
+s.R=Rp;
 % from interpolation
-R=cell(np,1);
-for k=1:np
-   ds=dyninterp(u{k},p);
-   ros=ros_file(u{k},ignS,ds,p);
-   ros(~p.vmask)=0;
-   R{k}=ros;
+if p.ros
+    R=cell(np,1);
+    for k=1:np
+       ds=dyninterp(u{k},p);
+       ros=ros_file(u{k},ignS,ds,p);
+       ros(~p.vmask)=0;
+       R{k}=ros;
+    end
+    s.Ri=R;
+    s.R=R;
 end
-p.R=R;
 
 fprintf('Defining final variables...\n');
 %% Boundary conditions
