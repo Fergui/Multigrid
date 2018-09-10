@@ -84,6 +84,7 @@ elseif p.exp=='real'
     p.X=p.ignS.fxlong; 
     p.Y=p.ignS.fxlat;
     us=u;
+    p.Rs=p.R;
     p.Hs=p.H;
     p.gs=p.g;
     p.bcs=p.bc;
@@ -100,6 +101,7 @@ for k=1:kk
     %% Configuration parameters
     if p.exp=='real'
         u=us{k};
+        p.R=p.Rs{k};
         H=[p.Hs{k};p.Hs{k+1}];
         g=[p.gs{k};p.gs{k+1}];
         R=representant(H);
