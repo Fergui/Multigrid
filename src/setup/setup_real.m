@@ -130,6 +130,8 @@ for k=1:np
     toc
 end
 s.M=M;
+p.vmask=M{1};
+p.mask=p.vmask;
 
 %% Structure of arrays u
 u=cell(np,1);
