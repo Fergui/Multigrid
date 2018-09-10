@@ -32,7 +32,7 @@ p.ros=0;
 % Record in a gif file?
 p.rec=0; 
 % Show the plots?
-p.plt=1;
+p.plt=0;
 
 %% Special configurations for the multigrid method
 p.exp='real';

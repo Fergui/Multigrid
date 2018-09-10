@@ -130,8 +130,6 @@ for k=1:np
     toc
 end
 s.M=M;
-p.vmask=M{1};
-p.mask=p.vmask;
 
 %% Structure of arrays u
 u=cell(np,1);
@@ -165,10 +163,12 @@ fprintf('Computing ROS...\n');
 %% Rate of spread
 % from fire arrival time initial approximation
 R=cell(np,1);
-R{1}=ros_file(u{1},p.ignS,p.ignS,s);
+ros=ros_file(u{1},p.ignS,p.ignS,s);
+ros(~M{1})=0;
+R{1}=ros;
 for k=2:np
     ros=ros_file(u{k},p.ignS,p.perS(k-1),s);
-    ros(~p.vmask)=0;
+    ros(~M{k})=0;
     R{k}=ros;
 end
 s.Ri=R;
@@ -181,11 +181,11 @@ end
 s.T=T;
 R=cell(np,1);
 ros=ros_file(T{1},p.ignS,p.ignS,s);
-ros(~p.vmask)=0;
+ros(~M{1})=0;
 R{1}=ros;
 for k=2:np
     ros=ros_file(T{k},p.ignS,p.perS(k-1),s);
-    ros(~p.vmask)=0;
+    ros(~M{k})=0;
     R{k}=ros;
 end
 s.Rd=R;
@@ -193,7 +193,7 @@ s.Rd=R;
 R=cell(np,1);
 for k=1:np
    ros=p.perS(k).ros; 
-   ros(~p.vmask)=0;
+   ros(~M{k})=0;
    R{k}=ros;
 end
 s.Rp=R;
@@ -204,7 +204,7 @@ if p.ros
     for k=1:np
        ds=dyninterp(u{k},p);
        ros=ros_file(u{k},ignS,ds,p);
-       ros(~p.vmask)=0;
+       ros(~M{k})=0;
        R{k}=ros;
     end
     s.Ri=R;

@@ -73,63 +73,72 @@ if ismember(p.exp,['ideal','file'])
     R=representant(p.H);
     [p.H,ro]=condense(R);
     p.g=p.g(ro);
+    kk=1;
 elseif p.exp=='real'
     s=setup.s;
     p.ignS=s.ignS;
-    p.dynS=s.dynS;
+    if p.ros
+        p.dynS=s.dynS;
+    end
     clear s
     p.X=p.ignS.fxlong; 
     p.Y=p.ignS.fxlat;
-    cas=1;
-    u=u{cas};
+    us=u;
     p.Hs=p.H;
     p.gs=p.g;
-    H=[p.H{cas};p.H{cas+1}];
-    g=[p.g{cas};p.g{cas+1}];
-    R=representant(H);
-    [Hn,ro]=condense(R);
-    gn=g(ro);
-    p.H=Hn;
-    p.g=gn;
-    uu=unique(p.g);
-    p.per1_time=uu(cas);
-    p.per2_time=uu(cas+1);
     p.bcs=p.bc;
     p.bis=p.bi;
     p.bjs=p.bj;
-    p.bc=p.bc{cas};
-    p.mask=p.M{cas};
-    p.vmask=p.mask;
-    ds=dyninterp(u,p);
-    ros=ros_file(u,p.ignS,ds,p);
-    ros(~p.vmask)=0;
-    p.R=ros;
+    kk=length(us);
 else
   error('Error: The experiment type is not specified. \n p.exp has to be one of these three strings:\n 1) ideal: Ideal case. \n 2) file: Ideal case from WRF-SFIRE simulation. \n 3) real: Real case.');
 end
 
-%% Starting graphics
-if p.plt || p.rec
-    if p.plt
-        fig=figure('units','normalized','outerposition',[0 0 1 1]);
-    elseif p.rec
-        fig=figure('units','normalized','outerposition',[0 0 1 1],'visible','off');
+um=cell(1,kk);
+Jg=cell(1,kk);
+for k=1:kk
+    %% Configuration parameters
+    if p.exp=='real'
+        u=us{k};
+        H=[p.Hs{k};p.Hs{k+1}];
+        g=[p.gs{k};p.gs{k+1}];
+        R=representant(H);
+        [Hn,ro]=condense(R);
+        gn=g(ro);
+        p.H=Hn;
+        p.g=gn;
+        uu=unique(p.g);
+        p.per1_time=uu(1);
+        p.per2_time=uu(2);
+        p.bc=p.bcs{k};
+        p.bi=p.bis;
+        p.bj=p.bjs;
+        p.mask=p.M{k};
+        p.vmask=p.mask;
     end
-    stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
-    h=suptitle(stitle);
-    set(h,'FontSize',20,'FontWeight','Bold');
-    subplot(2,2,1)
-    ui=u;
-    ui(~p.vmask)=nan;
-    plot_sol_mesh(p.X,p.Y,ui,p.H,p.g); view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
-    drawnow
-    if p.rec
-        record(['multi_',p.exp,'.gif'],fig);
+    %% Starting graphics
+    if p.plt || p.rec
+        if p.plt
+            fig=figure('units','normalized','outerposition',[0 0 1 1]);
+        elseif p.rec
+            fig=figure('units','normalized','outerposition',[0 0 1 1],'visible','off');
+        end
+        stitle={strcat('Multigrid using f(x,y)=',char(p.f));'';''};
+        h=suptitle(stitle);
+        set(h,'FontSize',20,'FontWeight','Bold');
+        subplot(2,2,1)
+        ui=u;
+        ui(~p.vmask)=nan;
+        plot_sol_mesh(p.X,p.Y,ui,p.H,p.g); view([0 1]), tit=title(['Initial approximation T, J(T)=',num2str(cJ(u,p.R,p))]); set(tit,'FontSize',20,'FontWeight','Bold'), axi=zlabel('Fire arrival time'); set(axi,'FontSize',20,'FontWeight','Bold')
+        drawnow
+        if p.rec
+            record(['multi_',p.exp,'.gif'],fig);
+        end
+        p.fig=fig;
     end
-    p.fig=fig;
-end
 
-%% Multigrid method
-[um,Jg]=multigrid(u,p);
+    %% Multigrid method
+    [um{k},Jg{k}]=multigrid(u,p);
+end
 
 end
