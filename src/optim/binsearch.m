@@ -15,7 +15,7 @@ function i=binsearch(s,T)
 %-------------------------------------------------------------------------
 
 l = 1;
-u = length(s)
+u = length(s);
 for k=1:ceil(log(u)/log(2))
     if s(l)  > T, i=[]; break; end
     if s(u)  < T, i=[]; break; end
