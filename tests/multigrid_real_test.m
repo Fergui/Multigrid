@@ -53,6 +53,6 @@ p.multigrid=flip(p.multigrid);
 pr=s;
 clear s
 s.u=u; s.p=p; s.s=pr;
-clear u p
+clear u p pr
 % Run the multigrid method
 [um,Jop] = multigrid_process(s);
