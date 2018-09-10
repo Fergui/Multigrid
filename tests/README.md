@@ -3,15 +3,21 @@
 ## Binary search
 Test of the binary search routines:
 - binsearch_test.m
+
 Test the routine binsearch.m.
+
 - binsearch_bounds_test.m
+
 Test the routine binsearch_bounds.m.
+
 - binsearch_leq_test.m
+
 Test the routine binsearch_leq.m.
 
 ## Condensation
 Test of the condensation routines:
 - condense_test.m
+
 Test the routines addshape.m (to add shape points to the perimeter), interop_bary.m (baryncenters interpolation), and condense.m (condense the matrix H) in a real kml file perimeter using a simulation grid.
 
 ## Interpolation
