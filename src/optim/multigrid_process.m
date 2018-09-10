@@ -143,4 +143,9 @@ for k=1:kk
     [um{k},Jg{k}]=multigrid(u,p);
 end
 
+if kk==1
+    um=um{1};
+    Jg=Jg{1};
+end
+
 end
