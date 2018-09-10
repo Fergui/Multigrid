@@ -197,7 +197,7 @@ for k=1:np
    R{k}=ros;
 end
 s.Rp=R;
-s.R=Rp;
+s.R=R;
 % from interpolation
 if p.ros
     R=cell(np,1);
