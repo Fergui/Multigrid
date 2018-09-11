@@ -40,12 +40,12 @@ p.max_step=1.0;
 p.nmesh=5;
 p.max_depth=2;
 p.min_depth=1;
-p.mcycle=4;
+p.mcycle=2;
 p.penalty=1; 
 maxs=4;
 p.multigrid=zeros(1,maxs);
 for k=1:size(p.multigrid,2)+1
-    p.multigrid(k)=k;
+    p.multigrid(k)=1;
 end
 p.multigrid=flip(p.multigrid);
 
@@ -56,3 +56,8 @@ s.u=u; s.p=p; s.s=pr;
 clear u p pr
 % Run the multigrid method
 [um,Jop] = multigrid_process(s);
+
+%% Save results
+pr.u=u; pr.p=p; pr.um=um; pr.Jop=Jop;
+save('out.mat','-struct','pr','-v7.3');
+fprintf('SUCCESS\n');
