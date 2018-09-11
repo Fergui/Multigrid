@@ -45,7 +45,9 @@ Test the Multigrid routines:
 
 - multigrid_file_test.m: Test the routines setup_file.m and multigrid_process.m. The routine setup_file.m setups the ideal case from WRF-SFIRE simulation from a wrfout file in data/wrfout and the simulated frame of the perimeter. The routine multigrid_process.m runs the projected Multigrid descent method.
 
-- multigrid_real_test.m: Test the routines preproc.m, setup_real.m and multigrid_process.m. The routine preproc.m preprocess the data from the wrfout simulation files in the path sim_path, the KML files of the perimeters in the path per_path, the ignition time in itime, the ignition point coordinates in ilon and ilat, and using or not using dynamic rate of spread in dyn. This preproc.m generates an in.mat file which is used for the routine setup_real.m for setup the real case. This setup_real.m generates a file called setup.mat. Finally, the routine multigrid_process.m runs the projected Multigrid descent method. To run an example, the next steps are required changing the script multigrid_real_test.m:
+- multigrid_real_test.m: Test the routines preproc.m, setup_real.m and multigrid_process.m. The routine preproc.m preprocess the data from the wrfout simulation files in the path sim_path, the KML files of the perimeters in the path per_path, the ignition time in itime, the ignition point coordinates in ilon and ilat, and using or not using dynamic rate of spread in dyn. This preproc.m generates an in.mat file which is used for the routine setup_real.m for setup the real case. This setup_real.m generates a file called setup.mat. Finally, the routine multigrid_process.m runs the projected Multigrid descent method. 
+
+To run a real example, the next steps are required changing the script multigrid_real_test.m:
 1) Remove all the files inside data (in.mat and setup.mat) from previous executions (because if it exists data inside it is going to load this data directly and not computes again the same thing).
 2) Change the paths to the simulation files and KML files.
 3) Change the ignition time (using the same format).
