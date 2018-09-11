@@ -53,3 +53,5 @@ To run a real example, the next steps are required changing the script multigrid
 3) Change the ignition time (using the same format).
 4) Change the latitude and longitude coordinates of the ignition point.
 5) Decide if to use or not a dynamic rate of spread. Warning: using dynamic rate of spread, a huge memory is required.
+6) Run multigrid_real_test.m in Matlab.
+7) Wait for the results in a Matlab file called out.mat!
