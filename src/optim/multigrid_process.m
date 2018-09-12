@@ -99,7 +99,7 @@ um=cell(1,kk);
 Jg=cell(1,kk);
 for k=1:kk
     %% Configuration parameters
-    if p.exp=='real'
+    if strcmp(p.exp,'real')
         u=us{k};
         p.R=p.Rs{k};
         H=[p.Hs{k};p.Hs{k+1}];

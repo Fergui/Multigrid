@@ -26,7 +26,7 @@ for k=1:size(p.multigrid,2)+1
 end
 p.multigrid=flip(p.multigrid);
 
-s.u=u; s.p=p;
+s.u=u; s.p=p; 
 clear u p
 % Run the multigrid method
 [um,Jop] = multigrid_process(s);
