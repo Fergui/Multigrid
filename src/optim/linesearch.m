@@ -47,11 +47,7 @@ for d=1:p.max_depth
         % penalty term
         if p.penalty
             penalty=zeros(size(u));
-            for k=2:m-1
-                for l=2:n-1
-                    penalty(k,l)=max(min([v(k-1,l) v(k+1,l) v(k,l-1) v(k,l+1)])-v(k,l),0);
-                end
-            end
+            penalty(2:end-1,2:end-1)=max(min(v(1:end-2,2:end-1),min(v(3:end,2:end-1),min(v(2:end-1,1:end-2),v(2:end-1,3:end))))-v(2:end-1,2:end-1),0);
             scal=min(v(:))-max(v(:));
             pen=(penalty/(scal+realmin)).^2*abs(Jls(i-1)-fv)/2;
             K=1000;   
