@@ -54,7 +54,7 @@ for d=1:p.max_depth
             end
             scal=min(v(:))-max(v(:));
             pen=(penalty/(scal+realmin)).^2*abs(Jls(i-1)-fv)/2;
-            K=10;   
+            K=1000;   
             % new function value
             Jls(i)=fv+K*sum(pen(:));
         else

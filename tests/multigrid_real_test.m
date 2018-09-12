@@ -40,9 +40,9 @@ p.max_step=1.0;
 p.nmesh=5;
 p.max_depth=2;
 p.min_depth=1;
-p.mcycle=2;
+p.mcycle=4;
 p.penalty=1; 
-maxs=4;
+maxs=8;
 p.multigrid=zeros(1,maxs);
 for k=1:size(p.multigrid,2)+1
     p.multigrid(k)=1;
@@ -58,6 +58,6 @@ clear u p pr
 [um,Jop] = multigrid_process(s);
 
 %% Save results
-pr.u=u; pr.p=p; pr.um=um; pr.Jop=Jop;
+pr.um=um; pr.Jop=Jop;
 save('out.mat','-struct','pr','-v7.3');
 fprintf('SUCCESS\n');
