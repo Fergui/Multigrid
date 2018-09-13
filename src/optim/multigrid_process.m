@@ -74,7 +74,7 @@ if ismember(p.exp,['ideal','file'])
     [p.H,ro]=condense(R);
     p.g=p.g(ro);
     kk=1;
-elseif p.exp=='real'
+elseif strcmp(p.exp,'real')
     s=setup.s;
     p.ignS=s.ignS;
     if p.ros
