@@ -123,5 +123,8 @@ for cycle=1:p.mcycle
             toc
         end
     end
+    out.Jop=Jglobal;
+    out.um=um;
+    save('rest.mat','-struct','out','-v7.3');
 end
 end
