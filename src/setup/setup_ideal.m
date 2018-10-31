@@ -68,8 +68,8 @@ if type=='s'
 elseif type=='c'
     x0=dx*(m-1)/2;
     y0=dy*(n-1)/2;
-    d1=16;
-    d2=48;
+    d1=14;
+    d2=42;
     per1=false(m,n);
     per2=false(m,n);
     for i=1:m
@@ -95,7 +95,7 @@ p.dy=dy;
 p.per1_mask=per1;
 p.per2_mask=per2;
 p.per12_mask=per2;
-p.per1_time=16;
+p.per1_time=19;
 % Squares
 if type=='s'
     p.per2_time=10;
@@ -113,8 +113,8 @@ elseif type=='c'
     T1=p.per1_time;
     R1=1;
     R2=2;
-    D1=16;
-    D2=16;
+    D1=d1;
+    D2=d1;
     T2=T1+D1/R1+D2/R2;
     p.per2_time=T2;
     for i=1:m
@@ -133,15 +133,11 @@ elseif type=='c'
         end
     end
     %% Creating shape
-    [xq1,yq1]=circle_points(x0,y0,d1,100);
-    [xq2,yq2]=circle_points(x0,y0,d2,200);
-    x=0:m-1;
-    y=0:n-1;
-    [X,Y]=meshgrid(x,y);
-    [xq1n,yq1n]=addshape(X,Y,xq1',yq1');
-    [xq2n,yq2n]=addshape(X,Y,xq2',yq2');
-    H1=interop_bary(X,Y,xq1n,yq1n);
-    H2=interop_bary(X,Y,xq2n,yq2n);
+    [xq1,yq1]=circle_points(x0,y0,d1,150);
+    [xq2,yq2]=circle_points(x0,y0,d2,250);
+    [X,Y]=meshgrid(0:m-1,0:n-1);
+    H1=interop_bary(X,Y,xq1,yq1);
+    H2=interop_bary(X,Y,xq2,yq2);
     H=[H1;H2];
     [p.H,rows]=condense(H);
     b1=p.per1_time*ones(size(H1,1),1);
