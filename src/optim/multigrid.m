@@ -44,7 +44,7 @@ seq=lm:-1:0;
 um=u;
 Jop=[];
 Jglobal=[];
-r=gJ(um,p);
+r=gJ(um,p.R,p);
 Jop=[Jop;r];
 Jglobal=[Jglobal;r];
 % General cycle of multigrid method
@@ -99,7 +99,7 @@ for cycle=1:p.mcycle
                     end
                 end
             end
-            r=gJ(um,p);
+            r=gJ(um,p.R,p);
             Jglobal=[Jglobal;r];
             if p.plt || p.rec
                 % Plotting results of each spacing

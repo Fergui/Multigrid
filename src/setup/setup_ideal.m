@@ -136,13 +136,16 @@ elseif type=='c'
     [xq1,yq1]=circle_points(x0,y0,d1,150);
     [xq2,yq2]=circle_points(x0,y0,d2,250);
     [X,Y]=meshgrid(0:m-1,0:n-1);
-    H1=interop_bary(X,Y,xq1,yq1);
-    H2=interop_bary(X,Y,xq2,yq2);
-    H=[H1;H2];
-    [p.H,rows]=condense(H);
-    b1=p.per1_time*ones(size(H1,1),1);
-    b2=p.per2_time*ones(size(H2,1),1);
-    g=[b1;b2];
+    [xq1n,yq1n]=addshape(X,Y,xq1',yq1');
+    [xq2n,yq2n]=addshape(X,Y,xq2',yq2');
+    p.shapes(1).x=xq1n;
+    p.shapes(1).y=yq1n;
+    p.shapes(2).x=xq2n;
+    p.shapes(2).y=yq2n;
+    [Hs,gs]=interpolation(X,Y,p.shapes,[p.per1_time,p.per2_time]);
+    H=[Hs{1};Hs{2}];
+    [p.H,rows]=condence(H);
+    g=[gs{1};gs{2}];
     p.g=g(rows);
 end
 %% Initialization of u using Dirichlet boundary conditions
@@ -181,13 +184,16 @@ p.select=upwind;
 % linesearch.m 
 p.max_step=4.0;
 p.nmesh=5;
-p.max_depth=20;
+p.max_depth=4;
 p.min_depth=2;
 p.umax=ones(m,n)*p.per2_time;
 p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
 p.bj=1:n;
 p.exp='ideal';
+p.penalty=1;
+p.X=X;
+p.Y=Y;
 end
 
 function [xq,yq]=circle_points(cx,cy,r,np)

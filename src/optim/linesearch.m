@@ -28,7 +28,6 @@ function [Jmin,smin,um,Jlow] = linesearch(u,f,R,dir,p)
 % Modify from another version by Jan Mandel
 %-------------------------------------------------------------------------
 
-[m,n]=size(u);
 step_low=0;
 step_high=p.max_step;
 Jmins=zeros(p.max_depth,1);

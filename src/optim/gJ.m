@@ -1,28 +1,28 @@
-function [varargout] = gJ(u,p)
+function [varargout] = gJ(u,R,p)
 % Call:
-% r = gJ(u,p) 
+% r = gJ(u,R,p) 
 %
 % Description:
-% Evaluates J(u,p)
+% Evaluates J(u,R,p)
 %
 % Call:
-% [gJp,gJn] = gJ(u,p)
+% [gJp,gJn] = gJ(u,R,p)
 %
 % Description:
 % Evaluates the gradient of J from the positive and negative side
 %
 % Call:
-% [gJp,gJn,sngrad] = gJ(u,p)
+% [gJp,gJn,sngrad] = gJ(u,R,p)
 %
 % Description:
 % Evaluates the gradient of J from the positive and negative side and ||grad u||^2
 %
 % Inputs:
 %   u         level set function
+%   R         rate of spread, on same nodes as u
 %   p         parameter structure with fields:
 %                vmask   matrix, true where the values of level set 
 %                        function can change  
-%                R       rate of spread, on same nodes as u
 %                dx,dy   mesh spacing
 %                select  handle to upwinding function
 %                ofunc   objective function f(x,y) comparing 
@@ -58,9 +58,10 @@ else
     [diffy,diffGydu]=p.select(diffLy,diffRy,p.dy);
 end
 sngrad=diffx.^2+diffy.^2;
-ros=p.R.^2;
+ros=R.^2;
 c=p.ofunc(sngrad,ros);
 c(~p.vmask)=0;
+c=c(2:end-1,2:end-1);
 r=(sum(c(:).^p.q)*p.dx*p.dy)^(1/p.q);
 varargout{1}=r;
 if nargout > 1

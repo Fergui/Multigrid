@@ -1,12 +1,20 @@
 function [H,rows] = condence(A)
-%[H,rows] = condence(A)
-% Condence the rows of H to be one constraint for triangle and all linearly independent
-% Slow but general version 
-% in
+% Call:
+% [H,rows] = condence(A)
+%
+% Description:
+% Condence the rows of H to be one constraint for triangle and all linearly independent. 
+% Slow but it works in all the cases.
+%
+% Inputs:
 %   A     sparse matrix to condence
-% out
+% Outputs:
 %   H     sparse matrix condenced
 %   rows  A indexes of final rows of H condenced
+%
+% Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
+% Angel Farguell (angel.farguell@gmail.com), 2018-08-15
+%-------------------------------------------------------------------------
 
 %% Mean of the rows in the same triangle
 % Dimensions of the problem
@@ -17,10 +25,15 @@ V=zeros(nns,3);
 % Definning for all the rows of H, the indexes j different than 0 (jj) and
 % the values of A at these indexes (vv) in the arrays J and V.
 for i=1:nns
-    [~,jj,vv]=find(A(i,:));
-    ll=length(jj);
-    J(i,1:ll)=jj;
-    V(i,1:ll)=vv;
+    [~,jjf,vvf]=find(A(i,:));
+    [vvn,vvi]=sort(vvf,'descend');
+    ll=min(length(jjf),3);
+    vv=vvn(1:ll);
+    jj=jjf(vvi(1:ll));
+    [jjs,jji]=sort(jj);
+    vvs=vv(jji);
+    J(i,1:ll)=jjs;
+    V(i,1:ll)=vvs;
 end
 % Sorting the rows depending on the j indexes different than 0 in A.
 [JS,index]=sortrows(J);

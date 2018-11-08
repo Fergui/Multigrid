@@ -129,9 +129,19 @@ X=ignS.fxlong;
 Y=ignS.fxlat;
 xi=xx*p.dx;
 yi=yy*p.dy;
+p.shapes(1).x=xi;
+p.shapes(1).y=yi;
 xq=X(per12);
 yq=Y(per12);
+p.shapes(2).x=xq;
+p.shapes(2).y=yq;
 %% Matrix H and vector g
+[Hs,gs]=interpolation(X,Y,p.shapes,[p.per1_time,p.per2_time]);
+H=[Hs{1};Hs{2}];
+[p.H,rows]=condence(H);
+g=[gs{1};gs{2}];
+p.g=g(rows);
+%{
 tic
 Hi=interop_bary(X,Y,xi,yi);
 Hi=representant(Hi);
@@ -151,6 +161,7 @@ Hp(ind,:)=[];
 gp=te*ones(size(Hp,1),1);
 p.H=[Hi;Hp];
 p.g=[gi;gp];
+%}
 %% Array u
 gs=[m,n];
 h=[p.dx,p.dy];
@@ -205,4 +216,7 @@ p.umin=ones(m,n)*p.per1_time;
 p.bi=1:m;
 p.bj=1:n;
 p.exp='file';
+p.penalty=1;
+p.X=X;
+p.Y=Y;
 end
