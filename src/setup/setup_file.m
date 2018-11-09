@@ -166,7 +166,7 @@ p.g=[gi;gp];
 gs=[m,n];
 h=[p.dx,p.dy];
 a=1.4;
-bv=p.per2_time*1.5;
+bv=p.per2_time*5;
 relres=1e-11;
 maxit=1000;
 tic
@@ -186,6 +186,8 @@ ds=dyninterp(u,p);
 ros=ros_file(u,ignS,ds,p);
 p.R=ros;
 p.R(~p.vmask)=0;
+%p.R=p.perS.ros;
+%p.R(~p.vmask)=0;
 %% Type of objective function and derivatives
 syms x y
 f=1-x*y;
