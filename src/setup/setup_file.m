@@ -165,7 +165,7 @@ p.g=[gi;gp];
 %% Array u
 gs=[m,n];
 h=[p.dx,p.dy];
-a=1.4;
+a=1;
 bv=p.per2_time*5;
 relres=1e-11;
 maxit=1000;

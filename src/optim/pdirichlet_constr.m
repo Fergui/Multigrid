@@ -59,7 +59,7 @@ Sinv = @(r) Smult(r,-a);
 S = @(r) Smult(r,a);
 Z = [];
 gg = g - HH*bv*ones(nn,1);  % or sum(HH,2)
-ff = zeros(nn,1); % cannot -S(b(:)) because S has zero boundary conditions inside
+ff = -.1*ones(nn,1); % cannot -S(b(:)) because S has zero boundary conditions inside
 uu=primalc(S,Sinv,HH,Z,ff,gg,relres,maxit);
 
 u =reshape(uu,n) + bv;

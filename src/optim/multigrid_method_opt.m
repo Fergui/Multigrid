@@ -27,7 +27,7 @@ end
 levels=3
 [m,n]=size(u);
 
-%% Initialize level 1
+%% Initialize level 1: finest level
 % Dimensions and resolutions
 mg(1).m=m;
 mg(1).n=n;
@@ -149,17 +149,20 @@ end
 %% Strategy vector
 exp=0:levels-1;
 strategy=2*2.^exp;
+strategy(end)=500;
 
 %% Cascadic Multigrid
 for i=levels:-1:1
     if i<levels,
         if p.dynR
             interpolantR=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).R(:));
+            %interpolantR.Method='natural';
             Rn=interpolantR(mg(i).X(:),mg(i).Y(:));
             mg(i).R=reshape(Rn,mg(i).m,mg(i).n);
             mg(i).R(~mg(i).vmask)=0;
         end
         interpolantu=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).u(:));
+        %interpolantu.Method='natural';
         un=interpolantu(mg(i).X(:),mg(i).Y(:));
         mg(i).u=reshape(un,mg(i).m,mg(i).n);
         [mg(i).C,mg(i).Jop]=vJ(mg(i).u,mg(i).R,mg(i));
@@ -179,13 +182,13 @@ for i=levels:-1:1
     figure(i), subplot(2,3,1), mesh(U), view([0,1]), title(['Level ',num2str(i),': First approximation']), drawnow;
     figure(i), subplot(2,3,2), mesh(mg(i).R), view([0,1]), title(['Level ',num2str(i),': Rate of Spread']), colorbar, drawnow;
     figure(i), subplot(2,3,3), h=pcolor(mg(i).vmask); title(['Level ',num2str(i),': Mask']), set(h,'EdgeColor','None'), drawnow;
-    figure(i), subplot(2,3,4), h=pcolor(mg(i).C); title(['Level ',num2str(i),': Contribution matrix']), set(h,'EdgeColor','None'), colorbar, drawnow;
     ri=1:mg(i).m;
     rj=1:mg(i).n;
+    dir=zeros(mg(i).m,mg(i).n);
     for sm_it=1:strategy(i)
+        figure(i), subplot(2,3,4), h=pcolor(mg(i).C); title(['Level ',num2str(i),': Contribution matrix']), set(h,'EdgeColor','None'), colorbar, drawnow;
         fprintf('Level %d, iteration %d.\n',i,sm_it);
         tic
-        dir=zeros(mg(i).m,mg(i).n);
         for ii=ri
             for jj=rj
                 if mg(i).vmask(ii,jj)==1
@@ -217,11 +220,9 @@ for i=levels:-1:1
         U=mg(i).u; U(~mg(i).vmask)=nan;
         figure(i), subplot(2,3,6), mesh(U), view([0,1]), title(['Level ',num2str(i),': Solution at iteration ',num2str(sm_it)]), drawnow;
         toc
-        %{
         if Js(end-1)-Js(end)<eps
             break
         end
-        %}
         ri=flip(ri);
         rj=flip(rj);
         if p.dynR
