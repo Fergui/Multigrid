@@ -67,7 +67,7 @@ for d=1:p.max_depth
             if isfield(p,'K')
                 K=p.K;
             else
-                K=10;
+                K=100;
             end
             % penalty value
             ps(i)=K*sum(pen(:));

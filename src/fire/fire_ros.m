@@ -90,7 +90,7 @@ umid = umidm * 196.850;                    % m/s to ft/min
 %  eqn.: phiw = c * umid**bbb * (betafl/betaop)**(-e) ! wind coef
 phiw = umid.^bbb .* phiwc;                   % wind coef
 phis = 5.275 * betafl.^(-0.3) .* min(max(0,tanphi),5.).^2;   % slope factor
-ros = 1 + r_0 .* (1. + phiw + phis) * .00508; % spread rate, m/s
+ros = r_0 .* (1. + phiw + phis) * .00508; % spread rate, m/s
 ros=ros.*nichap;
 % chapparal
 %        .... spread rate has no dependency on fuel character, only windspeed.
