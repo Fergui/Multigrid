@@ -8,7 +8,7 @@ times=[p.per1_time,p.per2_time];
 
 %% Strategy vector
 exp=0:levels-1;
-strategy=2*2.^exp;
+strategy=5.^exp;
 
 %% Cascadic Multigrid
 mg=cascadic_multigrid(mg,strategy);

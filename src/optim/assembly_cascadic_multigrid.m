@@ -3,6 +3,9 @@ function [mg,levels]=assembly_cascadic_multigrid(p,times)
 if ~isfield(p,'dynR')
     p.dynR=0;
 end
+if ~isfield(p,'interp')
+    p.interp='cubic';
+end
 if ~isfield(p,'coarse')
     p.coarse=0;
 end
@@ -33,6 +36,7 @@ mg(1).dy=p.dy;
 % Grid and indexes
 mg(1).ii=1:mg(1).m;
 mg(1).jj=1:mg(1).n;
+[mg(1).II,mg(1).JJ]=meshgrid(mg(1).ii,mg(1).jj);
 mg(1).iic=1:ratio:mg(1).m;
 mg(1).jjc=1:ratio:mg(1).n;
 mg(1).X=p.X(sm,sn);
@@ -77,6 +81,7 @@ for i=2:levels
     % Grid and indexes
     mg(i).ii=mg(i-1).iic; 
     mg(i).jj=mg(i-1).jjc;
+    [mg(i).II,mg(i).JJ]=meshgrid(1:mg(i).dx:mg(1).m,1:mg(i).dy:mg(1).n);
     mg(i).iic=1:ratio:mg(i).m;
     mg(i).jjc=1:ratio:mg(i).n;
     mg(i).X=mg(i-1).Xc;
@@ -120,7 +125,7 @@ uu=unique(mg(end).g);
 gs=[mg(end).m,mg(end).n];
 h=[mg(end).dx,mg(end).dy];
 a=1;
-bv=uu(end)*1.5;
+bv=uu(end)*1.05;
 relres=1e-11;
 maxit=1000;
 tic

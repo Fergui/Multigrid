@@ -4,14 +4,30 @@ levels=length(mg);
 for i=levels:-1:1
     if i<levels,
         if mg(i).dynR
-            interpolantR=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).R(:));
-            Rn=interpolantR(mg(i).X(:),mg(i).Y(:));
-            mg(i).R=reshape(Rn,mg(i).m,mg(i).n);
+            if mg(i).interp=='cubic'
+                mg(i).R=interp2(mg(i+1).II,mg(i+1).JJ,mg(i+1).R,mg(i).II,mg(i).JJ,'cubic');
+            elseif mg(i).interp=='akima'
+                mg(i).R=interp2(mg(i+1).II,mg(i+1).JJ,mg(i+1).R,mg(i).II,mg(i).JJ,'akima');
+            elseif mg(i).interp=='linear'
+                interpolantR=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).R(:));
+                Rn=interpolantR(mg(i).X(:),mg(i).Y(:));
+                mg(i).R=reshape(Rn,mg(i).m,mg(i).n);
+            else
+                error('Error: Any valid interpolation method assigned!');
+            end
             mg(i).R(~mg(i).vmask)=0;
         end
-        interpolantu=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).u(:));
-        un=interpolantu(mg(i).X(:),mg(i).Y(:));
-        mg(i).u=reshape(un,mg(i).m,mg(i).n);
+        if mg(i).interp=='cubic'
+            mg(i).u=interp2(mg(i+1).II,mg(i+1).JJ,mg(i+1).u,mg(i).II,mg(i).JJ,'cubic');
+        elseif mg(i).interp=='akima'
+            mg(i).u=interp2(mg(i+1).II,mg(i+1).JJ,mg(i+1).u,mg(i).II,mg(i).JJ,'akima');
+        elseif mg(i).interp=='linear'
+            interpolantu=scatteredInterpolant(mg(i+1).X(:),mg(i+1).Y(:),mg(i+1).u(:));
+            un=interpolantu(mg(i).X(:),mg(i).Y(:));
+            mg(i).u=reshape(un,mg(i).m,mg(i).n);
+        else
+            error('Error: Any valid interpolation method assigned!');
+        end
         [mg(i).C,mg(i).Jop]=vJ(mg(i).u,mg(i).R,mg(i));
         Js=mg(i).Jop;
     else

@@ -1,6 +1,6 @@
-function [C,r]=objf(u,p)
+function [C,r]=objf(u,R,p)
 % Call:
-% [C,r] = vJ(u,R,p) 
+% [C,r] = objf(u,R,p) 
 %
 % Description:
 % Evaluates
@@ -33,6 +33,7 @@ u_yy(2:end-1,2:end-1)=( (u(2:end-1,3:end)-u(2:end-1,2:end-1))/dy - (u(2:end-1,2:
 u_xy(2:end-1,2:end-1)=( (u(3:end,3:end)-u(1:end-2,3:end))/(2*dx) - (u(3:end,1:end-2)-u(1:end-2,1:end-2))/(2*dx) )/(2*dy);
 u_yx(2:end-1,2:end-1)=( (u(3:end,3:end)-u(3:end,1:end-2))/(2*dy) - (u(1:end-2,3:end)-u(1:end-2,1:end-2))/(2*dy) )/(2*dx);
 C=sqrt(u_xx.*u_xx+u_yy.*u_yy+u_xy.*u_xy+u_yx.*u_yx);
+C=C(2:end-1,2:end-1);
 r=sum(C(:));
 
 end

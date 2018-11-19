@@ -59,18 +59,18 @@ for d=1:p.max_depth
         if p.penalty
             penalty=zeros(size(u));
             penalty(2:end-1,2:end-1)=max(min(v(1:end-2,2:end-1),min(v(3:end,2:end-1),min(v(2:end-1,1:end-2),v(2:end-1,3:end))))-v(2:end-1,2:end-1),0);
-            pen=penalty; 
-            pen(~p.vmask)=0;
+            penalty(~p.vmask)=0;
+            pen=sum(penalty(:));
             %scal=min(v(:))-max(v(:));
             %pen=(penalty/(scal+realmin)).^2*abs(Jls(i-1)-fv)/2;
             %subplot(2,2,3), pcolor(penalty), colorbar, drawnow;
             if isfield(p,'K')
                 K=p.K;
             else
-                K=100;
+                K=1000;
             end
             % penalty value
-            ps(i)=K*sum(pen(:));
+            ps(i)=K*pen;
             % new function value
             Jls(i)=fv+ps(i);
         else

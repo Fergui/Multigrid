@@ -72,10 +72,10 @@ p.ofunc=matlabFunction(f,'Vars',[x y]);
 p.q=4;
 %% Others
 p.select=@s_eno;
-p.max_step=4.0;
+p.max_step=1.0;
 p.nmesh=5;
-p.max_depth=4;
-p.min_depth=2;
+p.max_depth=2;
+p.min_depth=1;
 p.exp='ideal';
 p.penalty=1;
 p.X=X;
