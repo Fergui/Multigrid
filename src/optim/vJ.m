@@ -1,6 +1,6 @@
 function [C,r] = vJ(u,R,p)
 % Call:
-% C = vJ(u,R,p) 
+% [C,r] = vJ(u,R,p) 
 %
 % Description:
 % Evaluates J(u,R,p) and returns the contribution matrix
@@ -15,6 +15,7 @@ function [C,r] = vJ(u,R,p)
 %                        x=||grad u||^2 and y=R^2 where xy=1 
 % Outputs:
 %   C         contribution matrix
+%   r         objective function value
 %
 % Developed in Matlab 9.2.0.556344 (R2017a) on MACINTOSH. 
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15

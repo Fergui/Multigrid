@@ -1,5 +1,5 @@
 %% Setup
-dynR=1; % with or without dynamic ROS
+dynR=0; % with or without dynamic ROS
 p=setup_file_cascadic('data/wrfout',50,dynR);
 times=[p.per1_time,p.per2_time];
 
