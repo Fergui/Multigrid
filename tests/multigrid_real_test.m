@@ -42,7 +42,6 @@ p.max_depth=2;
 p.min_depth=1;
 p.mcycle=4;
 p.penalty=1; 
-p.K=100000; % penalty to apply
 maxs=8;
 p.multigrid=zeros(1,maxs);
 for k=1:size(p.multigrid,2)+1

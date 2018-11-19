@@ -50,11 +50,7 @@ for d=1:p.max_depth
             penalty(2:end-1,2:end-1)=max(min(v(1:end-2,2:end-1),min(v(3:end,2:end-1),min(v(2:end-1,1:end-2),v(2:end-1,3:end))))-v(2:end-1,2:end-1),0);
             scal=min(v(:))-max(v(:));
             pen=(penalty/(scal+realmin)).^2*abs(Jls(i-1)-fv)/2;
-            if isfield(p,'K')
-                K=p.K;
-            else
-                K=1000;
-            end
+            K=1000;   
             % new function value
             Jls(i)=fv+K*sum(pen(:));
         else
