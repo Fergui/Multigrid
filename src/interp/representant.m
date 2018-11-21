@@ -14,20 +14,24 @@ function H = representant(A)
 % Angel Farguell (angel.farguell@gmail.com), 2018-08-15
 %-------------------------------------------------------------------------
 
-% Computing lenght of non-zero values of each row of A
-l=length(find(A(1,:)));
-% Dimensions of A
-[m,n]=size(A);
-% Find non-zero values of A
-[ii,jj,vv]=find(A);
-% Sort the non-zero values by rows
-[~,rows]=sort(ii);
-% Sort the columns and the values
-jjs=jj(rows);
-vvs=vv(rows);
-% Generate the matrix of columns and of values
-J=(reshape(jjs,l,length(jjs)/l))';
-V=(reshape(vvs,l,length(vvs)/l))';
+% Dimensions of the problem
+[nns,m] = size(A);
+% Initialization of the arrays
+J=zeros(nns,3);
+V=zeros(nns,3);
+% Definning for all the rows of H, the indexes j different than 0 (jj) and
+% the values of A at these indexes (vv) in the arrays J and V.
+for i=1:nns
+    [~,jjf,vvf]=find(A(i,:));
+    [vvn,vvi]=sort(vvf,'descend');
+    ll=min(length(jjf),3);
+    vv=vvn(1:ll);
+    jj=jjf(vvi(1:ll));
+    [jjs,jji]=sort(jj);
+    vvs=vv(jji);
+    J(i,1:ll)=jjs;
+    V(i,1:ll)=vvs;
+end
 % New row indexes
 i=(1:m)';
 % Find the maximum of the non-zero values of each row

@@ -1,9 +1,16 @@
-function H = repre(A)
+function varargout = repre(A)
 % Call:
 % H = repre(A)
 %
 % Description:
 % Take one unique non-zero value (representative) for each row of A
+%
+% Call:
+% [H,rows] = repre(A)
+%
+% Description:
+% Take one unique non-zero value (representative) for each row of A and
+% compute the ones which are linearly independent.
 %
 % Inputs: 
 %   A   Matrix to take the representants for rows
@@ -41,6 +48,16 @@ j=J(ind);
 v=ones(size(i));
 % New sparse matrix
 H=sparse(i,j,v,m,n);
+
+%% Only rows linearly independent
+if nargout>1
+    ixh=indep(H');
+    rows=i(ixh);
+    ind=setdiff(1:size(H,1),ixh);
+    H(ind,:)=[];
+    varargout{2}=rows;
+end
+varargout{1}=H;
 
 end
 

@@ -27,6 +27,7 @@ end
 p.per1_mask=per1;
 p.per2_mask=per2;
 p.per12_mask=per2;
+p.per0_time=0;
 p.per1_time=19;
 p=setup_masks(p);
 %% Rate of spread
@@ -53,16 +54,21 @@ for i=1:m
         end
     end
 end
+p.R(p.per1_mask)=14/19;
+p.mask(p.per1_mask)=1;
+p.vmask=p.mask;
 %% Shape points
 [xq1,yq1]=circle_points(x0,y0,d1,150);
 [xq2,yq2]=circle_points(x0,y0,d2,250);
 [X,Y]=meshgrid(0:m-1,0:n-1);
 [xq1n,yq1n]=addshape(X,Y,xq1',yq1');
 [xq2n,yq2n]=addshape(X,Y,xq2',yq2');
-p.shapes(1).x=xq1n;
-p.shapes(1).y=yq1n;
-p.shapes(2).x=xq2n;
-p.shapes(2).y=yq2n;
+p.shapes(1).x=x0;
+p.shapes(1).y=y0;
+p.shapes(2).x=xq1n;
+p.shapes(2).y=yq1n;
+p.shapes(3).x=xq2n;
+p.shapes(3).y=yq2n;
 %% Type of objective function
 syms x y
 f=1-x*y;
@@ -74,8 +80,8 @@ p.q=4;
 p.select=@s_eno;
 p.max_step=1.0;
 p.nmesh=5;
-p.max_depth=2;
-p.min_depth=1;
+p.max_depth=10;
+p.min_depth=2;
 p.exp='ideal';
 p.penalty=1;
 p.X=X;

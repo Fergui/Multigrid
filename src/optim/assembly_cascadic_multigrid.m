@@ -9,6 +9,9 @@ end
 if ~isfield(p,'coarse')
     p.coarse=0;
 end
+if ~isfield(p,'max_iter')
+    p.max_iter=20;
+end
 % determine ratio and finest grid mesh
 ratio=2;
 sm=findmgfit(p.m);
@@ -27,6 +30,7 @@ end
 levels=4;
 
 %% Initialize level 1
+fprintf('assembly_cascadic_multigrid.m: initializing level 1.\n');
 mg(1)=p;
 % Dimensions and resolutions
 mg(1).m=m;
@@ -47,9 +51,10 @@ mg(1).Yc=mg(1).Y(mg(1).iic,mg(1).jjc);
 [Hs,gs]=interpolation(mg(1).X,mg(1).Y,p.shapes,times);
 Hc=cat(1,Hs{:});
 [H,rows]=condence(Hc);
+[mg(1).H,kk]=repre(H);
 gc=cat(1,gs{:});
+rows=rows(kk);
 g=gc(rows);
-mg(1).H=H;
 mg(1).g=g;
 % Other configuration parameters
 mg(1).vmask=p.vmask(sm,sn);
@@ -72,6 +77,7 @@ end
 
 %% Prepare all the levels
 for i=2:levels
+    fprintf('assembly_cascadic_multigrid.m: prepare level %d.\n',i);
     mg(i)=mg(1);
     % Dimensions and resolutions
     mg(i).m=length(mg(i-1).iic);
@@ -81,7 +87,7 @@ for i=2:levels
     % Grid and indexes
     mg(i).ii=mg(i-1).iic; 
     mg(i).jj=mg(i-1).jjc;
-    [mg(i).II,mg(i).JJ]=meshgrid(1:mg(i).dx:mg(1).m,1:mg(i).dy:mg(1).n);
+    [mg(i).II,mg(i).JJ]=meshgrid(1:2^(i-1):mg(1).m,1:2^(i-1):mg(1).n);
     mg(i).iic=1:ratio:mg(i).m;
     mg(i).jjc=1:ratio:mg(i).n;
     mg(i).X=mg(i-1).Xc;
@@ -91,8 +97,10 @@ for i=2:levels
     % H and g for the linear system of constraints
     [Hs,gs]=interpolation(mg(i).X,mg(i).Y,p.shapes,times);
     Hc=cat(1,Hs{:});
-    [mg(i).H,rows]=condence(Hc);
+    [H,rows]=condence(Hc);
     gc=cat(1,gs{:});
+    [mg(i).H,kk]=repre(H);
+    rows=rows(kk);
     mg(i).g=gc(rows);
     % Rate of spread
     if mg(i).coarse
@@ -120,6 +128,7 @@ for i=2:levels
 end
 
 %% Last level initialization
+fprintf('assembly_cascadic_multigrid.m: last level initialization.\n');
 % Initial fire arrival time using Dirichlet boundary conditions
 uu=unique(mg(end).g);
 gs=[mg(end).m,mg(end).n];

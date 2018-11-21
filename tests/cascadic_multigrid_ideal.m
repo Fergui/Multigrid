@@ -1,14 +1,17 @@
 %% Setup
 mi=100; ni=100; dx=1; dy=1;
 p=setup_circles_cascadic(mi,ni,dx,dy);
-times=[p.per1_time,p.per2_time];
+times=[p.per0_time,p.per1_time,p.per2_time];
 
 %% Assembly of the Cascadic Multigrid
 [mg,levels]=assembly_cascadic_multigrid(p,times);
 
+%% Better first approximation
+mg(end).u=first_approximation(mg(end),@objf);
+
 %% Strategy vector
 exp=0:levels-1;
-strategy=5.^exp;
+strategy=2*5.^exp;
 
 %% Cascadic Multigrid
 mg=cascadic_multigrid(mg,strategy);
