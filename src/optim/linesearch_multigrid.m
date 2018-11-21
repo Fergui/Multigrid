@@ -1,6 +1,6 @@
 function [Jmin,smin,um,Jlow,Cm,pm] = linesearch_multigrid(u,f,R,dir,vmask,p)
 % Call:
-% [Jmin,smin,um,Jlow,Cm] = linesearch_multigrid(u,f,R,dir,p)
+% [Jmin,smin,um,Jlow,Cm] = linesearch_multigrid(u,f,R,dir,vmask,p)
 %
 % Description:
 % Exact line search in the specify direction
@@ -14,8 +14,6 @@ function [Jmin,smin,um,Jlow,Cm,pm] = linesearch_multigrid(u,f,R,dir,vmask,p)
 %      nmesh       number of mesh points in each search
 %      max_depth   max number of searchs
 %      min_depth   min number of searchs
-%      umin        array, minimal value of u
-%      umax        array, maximal value of u
 %      H           matrix, interpolation operator in the patch
 %      g           array, right side vector of constraints Hu=g
 % Outputs:
